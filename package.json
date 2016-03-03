@@ -1,0 +1,30 @@
+{
+  "name": "Placeholder",
+  "version": "",
+  "description": "Placeholder",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "update": "npm update",
+    "initialize": "node init.js",
+    "bower-update": "bower update",
+    "update-path": "export PATH=$(npm bin):$PATH"
+  },
+  "repository": {},
+  "keywords": [
+    "chrome-plugin",
+    "base",
+    "chrome",
+    "plugin"
+  ],
+  "author": "#Placeholder",
+  "license": "MIT",
+  "bugs": {},
+  "homepage": "",
+  "dependencies": {
+    "express": "*",
+    "prompt": "*",
+    "bower": "*"
+  }
+}

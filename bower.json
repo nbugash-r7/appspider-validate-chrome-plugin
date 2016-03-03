@@ -1,0 +1,26 @@
+{
+  "name": "Placeholder",
+  "description": "Placeholder",
+  "authors": [],
+  "license": "MIT",
+  "keywords": [
+    "chrome-plugin",
+    "base",
+    "chrome",
+    "plugin"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "homepage": "Placeholder",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ui-base-styles": "git@github.com:rapid7/ui-base-styles.git"
+  }
+}
