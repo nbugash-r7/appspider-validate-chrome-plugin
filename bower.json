@@ -37,6 +37,7 @@
     },
     "bootstrap-sass": {
       "main": [
+        "assets/stylesheets/_bootstrap.scss",
         "assets/javascripts/bootstrap.min.js"
       ]
     },
