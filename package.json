@@ -1,7 +1,7 @@
 {
-  "name": "Placeholder",
-  "version": "",
-  "description": "Placeholder",
+  "name": "appspider-validate-chrome-plugin",
+  "version": "0.0.1",
+  "description": "Chrome plugin used to enable the validate button in AppSpider reports.",
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,20 +11,35 @@
     "bower-update": "bower update",
     "update-path": "export PATH=$(npm bin):$PATH"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nbugash-r7/appspider-validate-chrome-plugin.git"
+  },
   "keywords": [
     "chrome-plugin",
     "base",
     "chrome",
     "plugin"
   ],
-  "author": "#Placeholder",
+  "author": "Nonico Bugash",
   "license": "MIT",
-  "bugs": {},
-  "homepage": "",
+  "bugs": {
+    "url": "https://github.com/nbugash-r7/appspider-validate-chrome-plugin/issues"
+  },
+  "homepage": "https://github.com/nbugash-r7/appspider-validate-chrome-plugin#readme",
   "dependencies": {
+    "bower": "*",
     "express": "*",
-    "prompt": "*",
-    "bower": "*"
+    "prompt": "*"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-inject": "^3.0.0",
+    "gulp-jscs": "^3.0.2",
+    "gulp-jshint": "^2.0.0",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0",
+    "node-sass": "^3.4.2",
+    "wiredep": "^3.0.0"
   }
 }

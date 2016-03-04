@@ -1,7 +1,9 @@
 {
-  "name": "Placeholder",
-  "description": "Placeholder",
-  "authors": [],
+  "name": "appspider-validate-chrome-plugin",
+  "description": "Chrome plugin used to enable the validate button in AppSpider reports.",
+  "authors": [
+    "Nonico Bugash"
+  ],
   "license": "MIT",
   "keywords": [
     "chrome-plugin",
@@ -12,7 +14,7 @@
   "moduleType": [
     "node"
   ],
-  "homepage": "Placeholder",
+  "homepage": "https://github.com/nbugash-r7/appspider-validate-chrome-plugin#readme",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -21,6 +23,38 @@
     "tests"
   ],
   "dependencies": {
-    "ui-base-styles": "git@github.com:rapid7/ui-base-styles.git"
+    "ui-base-styles": "git@github.com:rapid7/ui-base-styles.git",
+    "jquery": "^2.2.1",
+    "underscore": "^1.8.3",
+    "bootstrap-toggle": "^2.2.1",
+    "angular": "^1.5.0"
+  },
+  "overrides": {
+    "jquery": {
+      "main": [
+        "dist/jquery.min.js"
+      ]
+    },
+    "bootstrap-sass": {
+      "main": [
+        "assets/javascripts/bootstrap.min.js"
+      ]
+    },
+    "underscore": {
+      "main": [
+        "underscore-min.js"
+      ]
+    },
+    "angular": {
+      "main": [
+        "angular.min.js"
+      ]
+    },
+    "ui-base-styles": {
+      "main": [
+        "dist/styles/base.css",
+        "dist/javascripts/bootstrap.js"
+      ]
+    }
   }
 }

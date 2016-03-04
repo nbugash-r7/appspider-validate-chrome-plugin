@@ -17,13 +17,13 @@ var properties = [
 		name: 'pluginName',
 		validator: /^[a-zA-Z\s\-]+$/,
 		warning: 'Plugin name must be only letters, space or dashes',
-		default: "super-awesome-plugin",
-		message: "Enter the plugin name"
+		default: 'super-awesome-plugin',
+		message: 'Enter the plugin name'
 	},
 	{
 		name: 'description',
-		default: "TODO: Need to add a description",
-		message: "Enter a brief description of this plugin"
+		default: 'TODO: Need to add a description',
+		message: 'Enter a brief description of this plugin'
 	},
 	{
 		name: 'author',
@@ -38,15 +38,15 @@ var properties = [
 		message: 'Enter your git username. A blank response will ignore a git entry'
 	},
 	{
-		name: "useR7StyleGuide",
-		type: "boolean",
+		name: 'useR7StyleGuide',
+		type: 'boolean',
 		default: true,
-		description: "Do you want to use the Rapid7 style guide?"
+		description: 'Do you want to use the Rapid7 style guide?'
 	},
 	{
-		name: "version",
-		default: "0.0.1",
-		message: "Version number of this plugin"
+		name: 'version',
+		default: '0.0.1',
+		message: 'Version number of this plugin'
 	}
 ];
 
@@ -69,21 +69,21 @@ prompt.get(properties, function (err, result) {
 	bowerJson.authors.push(result.author);
 
 	/* Updating the git username of the plugin */
-	if(result.gitusername === "" ){
+	if(result.gitusername === '' ){
 		packageJson.repository = {};
 		packageJson.bugs = {};
-		bowerJson.homepage = packageJson.homepage = "";
+		bowerJson.homepage = packageJson.homepage = '';
 	} else {
-		packageJson.repository.type = "git";
-		packageJson.repository.url = 	"git+ssh://git@github.com/" + result.gitusername + "/" + packageJson.name + ".git";
-		packageJson.bugs.url = "https://github.com/" + result.gitusername + "/" + packageJson.name + "/issues";
-		packageJson.homepage = "https://github.com/" + result.gitusername + "/" + packageJson.name + "#readme";
+		packageJson.repository.type = 'git';
+		packageJson.repository.url = 	'git+ssh://git@github.com/' + result.gitusername + '/' + packageJson.name + '.git';
+		packageJson.bugs.url = 'https://github.com/' + result.gitusername + '/' + packageJson.name + '/issues';
+		packageJson.homepage = 'https://github.com/' + result.gitusername + '/' + packageJson.name + '#readme';
 		bowerJson.homepage = packageJson.homepage;
 	}
 
 	/* Adhere to Rapid7 style guides? */
 	if(result.useR7StyleGuide) {
-		bowerJson.dependencies["ui-base-styles"] = "git@github.com:rapid7/ui-base-styles.git";
+		bowerJson.dependencies['ui-base-styles'] = 'git@github.com:rapid7/ui-base-styles.git';
 	} else {
 		bowerJson.dependencies = {};
 	}
@@ -93,13 +93,19 @@ prompt.get(properties, function (err, result) {
 
 	prompt.stop();
 	fs.writeFile(packetJsonFileName, JSON.stringify(packageJson, null, 2), function(err){
-		if (err) return console.error(err);
+		if (err){
+			return console.error(err);
+		}
 	});
 	fs.writeFile(bowerJsonFileName, JSON.stringify(bowerJson, null, 2), function(err){
-		if (err) return console.error(err);
+		if (err) {
+			return console.error(err);
+		}
 	});
 	fs.writeFile(manifestJsonFile, JSON.stringify(manifestJson, null, 2), function(err){
-		if (err) return console.error(err);
+		if (err) {
+			return console.error(err);
+		}
 	});
 });
 
@@ -108,9 +114,9 @@ function onErr(err) {
 	return 1;
 }
 function convertToValidName(name) {
-	var array = name.toLocaleLowerCase().split(" ");
+	var array = name.toLocaleLowerCase().split(' ');
 	if (array.length > 1) {
-		name = array.join("-");
+		name = array.join('-');
 	}
 	return name;
 }

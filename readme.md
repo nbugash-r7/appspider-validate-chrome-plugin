@@ -5,7 +5,7 @@ This is the starter kit framework to build a chrome plugin.
 0.0.1
 
 ### Initialize the starter kit
-This starter kit is used in order to a quickly create a plugin 
+This starter kit is used in order to quickly create a chrome plugin 
 
 1. Clone the repo
     ```sh
@@ -27,6 +27,23 @@ This starter kit is used in order to a quickly create a plugin
 5. Run bower update.
     ```sh
     $ bower update
+    ```
+
+### If using the R7 style guide
+Prerequisite:
+
+* node-sass installed 
+    ```sh
+   $ npm install -g node-sass
+    ```
+
+1. Change directory to chrome-plugin/vendor/ui-base-styles
+    ```sh
+    $ cd chrome-plugin/vendor/ui-base-styles
+    ```
+2. Run the following command. (See Rapid7 [ui-base-styles](https://github.com/rapid7/ui-base-styles#building))
+    ```sh
+    $ npm run build
     ```
 
 ### Installing the chrome plugin to Chrome
