@@ -80,4 +80,5 @@ crashlytics-build.properties
 package.json.sample
 bower.json.sample
 chrome-plugin/manifest.json.sample
+!server/views/.keep
 server/views/
