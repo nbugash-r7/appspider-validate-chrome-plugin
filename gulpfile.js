@@ -31,5 +31,5 @@ gulp.task('inject-validate.html', function() {
 	return gulp.src('./chrome-plugin/validate.html')
 		.pipe(wiredep(options))
 		.pipe(inject(injectSrc, injectOptions))
-		.pipe(gulp.dest('./chrome-plugin'))
+		.pipe(gulp.dest('./chrome-plugin'));
 });
