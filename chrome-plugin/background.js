@@ -88,7 +88,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                         step++;
                                         chrome.storage.local.get(null, function(attacks){
                                             if(_.size(attacks) >= requests.length){
-                                                AppSpider.chrome.openNewWindow('validate.html', 940, 745);
+                                                appspider.chrome.window.open('plugin.html', 940, 745);
                                             }
                                         });
 

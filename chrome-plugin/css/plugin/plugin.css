@@ -44,3 +44,12 @@ div.main.toggled .main-content {
     margin-right: -250px;
 }
 /* End toggle style */
+
+/* Buttons */
+div.appspider-btn-controls {
+    padding-top: 15px;
+}
+
+.appspider-btn {
+    height: 34px;
+}
