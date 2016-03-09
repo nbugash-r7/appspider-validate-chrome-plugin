@@ -39,13 +39,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                             /* setting the attack id */
                                             attack.id = step;
                                             /* converting headers from String to JSON object */
-                                            attack.headers = appspider.helper.convertHeaderStringToJSON(attack.headers);
+                                            attack.headers = appspider.util.convertHeaderStringToJSON(attack.headers);
                                             switch (message.data.send_request_as) {
                                                 case 'xmlhttprequest':
                                                     appspider.http.send.viaXHR(attack,
                                                         function (xhr) {
                                                             /* On a successful response */
-                                                            attack.response_headers = xhr.getAllResponseHeaders();
+                                                            attack.response_headers = appspider.util.convertHeaderStringToJSON(xhr.getAllResponseHeaders());
                                                             attack.response_content = xhr.responseText;
                                                             /* Save attack to chrome storage */
                                                             var attack_obj = {};
@@ -74,12 +74,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                         step++;
                                     }
                                 }
-                                appspider.chrome.storage.local.retrieveAll(function (attacks) {
-                                    if (_.size(attacks) >= requests.length) {
-                                        console.log('opening plugin.html');
-                                        appspider.chrome.window.open('plugin.html', 940, 745);
-                                    }
-                                });
+                                appspider.chrome.window.open('plugin.html', 940, 745);
                             });
                             break;
                         case "sync":

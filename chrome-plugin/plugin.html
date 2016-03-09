@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="appSpiderValidateApp" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,14 +21,14 @@
     <script src="/js/plugin/animation.js"></script>
     <script src="/js/plugin/app.js"></script>
     <script src="/js/plugin/chrome.js"></script>
-    <script src="/js/plugin/helper.js"></script>
     <script src="/js/plugin/http.js"></script>
+    <script src="/js/plugin/util.js"></script>
     <!-- endinject -->
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/plugin/plugin.css">
     <!-- endinject -->
 </head>
-<body ng-app="AppSpiderValidateApp">
+<body>
 <div ng-controller="AttackController as attackCrtl">
     <div id="header" class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
@@ -65,7 +65,8 @@
                                         <div class="raw">
                                             <!--Raw View-->
                                             <textarea title="appspider-title" class="form-control container-fluid"
-                                                      name="attack-request-header" cols="30" rows="10">Request Headers Here</textarea>
+                                                      name="attack-request-header" cols="30" rows="10"
+                                                      ng-model="attack.headers" appspiderjson readonly>Request Headers Here</textarea>
                                         </div>
                                         <div class="prettify" ng-hide="true">
                                             <!--Prettify view-->
@@ -92,6 +93,7 @@
                                         <textarea title="appspider-payload" name="appspider-payload" cols="30" rows="10"
                                                   class="form-control" ng-model="attack.payload">Payload</textarea>
                                     </div>
+                                <div class="appspider-btn-controls-section">
                                     <div class="appspider-btn-controls">
                                         <div class="input-group">
                                             <div class="input-group-btn">
@@ -127,7 +129,9 @@
                                                     <button href="#" class="btn btn-default appspider-btn"
                                                             ng-hide="true">Reset
                                                     </button>
-                                                    <button href="#" class="btn btn-default appspider-btn">Send</button>
+                                                    <button href="#" class="btn btn-default appspider-btn"
+                                                            ng-click="attackCrtl.resendAttack(attack)">Send
+                                                    </button>
                                                     <button href="#" class="btn btn-default appspider-btn"
                                                             ng-hide="true">Compare
                                                     </button>
@@ -135,11 +139,13 @@
                                             </div> <!-- input-group-btn -->
                                         </div> <!-- input-group -->
                                     </div> <!-- END appspider-btn-controls -->
+                                </div> <!-- END appspider-btn-controls-section -->
                                     <div class="appspider-response-section">
                                         <h4>Attack Response</h4>
                                         <textarea title="appspider-response-header" name="appspider-response-header"
                                                   class="form-control" cols="30"
-                                                  rows="10">Attack Response Header</textarea>
+                                                  rows="10" ng-model="attack.response_headers"
+                                                  appspiderjson>Attack Response Header</textarea>
                                     </div>
                                     <div class="appspider-content-section">
                                         <textarea title="appspider-response-content" name="appspider-response-content"

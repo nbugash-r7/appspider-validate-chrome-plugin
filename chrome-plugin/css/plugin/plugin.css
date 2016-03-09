@@ -53,3 +53,20 @@ div.appspider-btn-controls {
 .appspider-btn {
     height: 34px;
 }
+
+/* Spacing for each sections */
+div.appspider-payload-section {
+    padding-top: 10px;
+}
+
+div.appspider-btn-controls-section {
+    padding-top: 10px;
+}
+
+div.appspider-response-section {
+    padding-top: 10px;
+}
+
+div.appspider-content-section {
+    padding-top: 10px;
+}

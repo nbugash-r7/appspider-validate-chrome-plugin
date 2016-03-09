@@ -37,6 +37,5 @@
   },
   "_source": "git://github.com/minhur/bootstrap-toggle.git",
   "_target": "^2.2.1",
-  "_originalSource": "bootstrap-toggle",
-  "_direct": true
+  "_originalSource": "bootstrap-toggle"
 }

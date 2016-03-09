@@ -4,7 +4,7 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
-var jsFiles = ['*.js', 'server/*.js', 'chrome-plugin/js/*.js'];
+var jsFiles = ['*.js', 'server/*.js', 'chrome-plugin/js/*.js', 'chrome-plugin/js/plugin/*.js'];
 
 gulp.task('styles', function () {
 	return gulp.src(jsFiles)

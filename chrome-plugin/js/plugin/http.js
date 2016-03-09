@@ -3,9 +3,8 @@
  */
 
 if (appspider === undefined) {
-    var appspider = {}
+    var appspider = {};
 }
-;
 appspider.http = {
     /* Allow restricted header in being altered */
     modifyHeaders: function (attack_headers) {

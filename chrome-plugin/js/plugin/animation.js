@@ -6,8 +6,8 @@ $(function(){
     $('.dropdown-toggle').dropdown();
 
     /* Enable collapsing of side navigation bar */
-    $("#appspider-logo").click(function(e){
+    $('#appspider-logo').click(function (e) {
         e.preventDefault();
-        $(".main").toggleClass("toggled");
+        $('.main').toggleClass('toggled');
     });
 });

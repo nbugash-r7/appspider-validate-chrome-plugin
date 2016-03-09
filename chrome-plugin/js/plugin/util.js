@@ -4,7 +4,7 @@
 if (appspider === undefined) {
     var appspider = {};
 }
-appspider.helper = {
+appspider.util = {
     convertHeaderStringToJSON: function (headerString) {
         var headerArray = headerString.split('\r\n');
         var headers = {};
@@ -41,5 +41,28 @@ appspider.helper = {
             }
         }
         return headers;
+    },
+    convertJSONToString: function (jsonObj) {
+        var str = '';
+        if (jsonObj.REQUEST) {
+            str = jsonObj.REQUEST.method + ' ' + jsonObj.REQUEST.uri + ' ' + jsonObj.REQUEST.version + '\r\n';
+        }
+        for (var key in jsonObj) {
+            switch (key) {
+                case 'REQUEST':
+                    break; //skip
+                case 'Cookie':
+                    str += key + ': ' + JSON.stringify(jsonObj[key], null, '\t') + '\r\n';
+                    break;
+                default:
+                    if (typeof jsonObj[key] === 'object') {
+                        str += key + ': ' + AppSpider.util.convertJSONToString(jsonObj[key]);
+                    } else {
+                        str += key + ': ' + jsonObj[key].trim() + '\r\n';
+                    }
+                    break;
+            }
+        }
+        return str;
     }
 };
