@@ -37,10 +37,14 @@ appspider.chrome = {
                 chrome.storage.local.set(obj, callback);
             },
             retrieve: function (id, callback) {
-                chrome.storage.local.get(id, callback);
+                chrome.storage.local.get(id, function (result) {
+                    callback(result);
+                });
             },
             retrieveAll: function (callback) {
-                chrome.storage.local.get(null, callback);
+                chrome.storage.local.get(null, function (results) {
+                    callback(results);
+                });
             }
         }
     },

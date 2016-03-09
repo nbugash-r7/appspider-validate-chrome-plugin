@@ -9,6 +9,7 @@
       "vendor/underscore/underscore-min.js",
       "js/plugin/chrome.js",
       "js/plugin/http.js",
+      "js/plugin/helper.js",
       "background.js"
     ],
     "persistent": true
