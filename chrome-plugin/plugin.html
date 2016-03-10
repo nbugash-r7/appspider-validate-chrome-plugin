@@ -11,19 +11,24 @@
     <script src="vendor/underscore/underscore-min.js"></script>
     <script src="vendor/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
     <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/dot-object/dist/dot-object.min.js"></script>
     <!-- endbower -->
+
     <!-- bower:css -->
     <link rel="stylesheet" href="vendor/roboto-fontface/css/roboto-fontface.css" />
     <link rel="stylesheet" href="vendor/ui-base-styles/dist/styles/base.css" />
     <link rel="stylesheet" href="vendor/bootstrap-toggle/css/bootstrap-toggle.min.css" />
     <!-- endbower -->
+
     <!-- inject:js -->
     <script src="/js/plugin/animation.js"></script>
     <script src="/js/plugin/app.js"></script>
     <script src="/js/plugin/chrome.js"></script>
+    <script src="/js/plugin/events.js"></script>
     <script src="/js/plugin/http.js"></script>
     <script src="/js/plugin/util.js"></script>
     <!-- endinject -->
+
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/plugin/plugin.css">
     <!-- endinject -->
@@ -65,8 +70,10 @@
                                         <div class="raw">
                                             <!--Raw View-->
                                             <textarea title="appspider-title" class="form-control container-fluid"
-                                                      name="attack-request-header" cols="30" rows="10"
-                                                      ng-model="attack.headers" appspiderjson readonly>Request Headers Here</textarea>
+                                                      name="attack-request-header" cols="30" rows="10" appspiderjson
+                                                      readonly
+                                                      ng-model="attack.request.headers"
+                                                      id="appspider-request-header-{{id}}">Request Headers Here</textarea>
                                         </div>
                                         <div class="prettify" ng-hide="true">
                                             <!--Prettify view-->
@@ -91,7 +98,8 @@
                                     </div><!-- END appspider-request-section -->
                                     <div class="appspider-payload-section">
                                         <textarea title="appspider-payload" name="appspider-payload" cols="30" rows="10"
-                                                  class="form-control" ng-model="attack.payload">Payload</textarea>
+                                                  class="form-control" ng-model="attack.request.payload"
+                                                  id="attack-payload-{{id}}">Payload</textarea>
                                     </div>
                                 <div class="appspider-btn-controls-section">
                                     <div class="appspider-btn-controls">
@@ -143,14 +151,15 @@
                                     <div class="appspider-response-section">
                                         <h4>Attack Response</h4>
                                         <textarea title="appspider-response-header" name="appspider-response-header"
-                                                  class="form-control" cols="30"
-                                                  rows="10" ng-model="attack.response_headers"
-                                                  appspiderjson>Attack Response Header</textarea>
+                                                  class="form-control" cols="30" rows="10"
+                                                  ng-model="attack.response.headers"
+                                                  id="appspider-response-header-{{id}}" appspiderjson>Attack Response Header</textarea>
                                     </div>
                                     <div class="appspider-content-section">
                                         <textarea title="appspider-response-content" name="appspider-response-content"
                                                   class="form-control" cols="30" rows="10"
-                                                  ng-model="attack.response_content">Attack Response Content</textarea>
+                                                  ng-model="attack.response.content"
+                                                  id="appspider-response-content-{{id}}">Attack Response Content</textarea>
                                     </div>
                                 <div class="appspider-btn-controls">
                                     <div class="input-group">

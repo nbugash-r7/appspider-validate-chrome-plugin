@@ -19,7 +19,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                             chrome.storage.local.clear(function(){
                                 console.log("Clearing chrome local storage");
                                 /* (2) Decode http request */
-                                //var decodedhttprequest = AppSpider.http.decodeRequest(encodedhttp);
                                 var decodedhttprequest = appspider.http.decodeRequest(encodedhttp);
                                 /* (3) Split the decoded http request into an array of requests */
                                 var requests = _.compact(appspider.http.splitRequests(decodedhttprequest));
@@ -39,14 +38,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                             /* setting the attack id */
                                             attack.id = step;
                                             /* converting headers from String to JSON object */
-                                            attack.headers = appspider.util.convertHeaderStringToJSON(attack.headers);
+                                            attack.request.headers = appspider.util.convertHeaderStringToJSON(attack.request.headers);
                                             switch (message.data.send_request_as) {
                                                 case 'xmlhttprequest':
                                                     appspider.http.send.viaXHR(attack,
                                                         function (xhr) {
                                                             /* On a successful response */
-                                                            attack.response_headers = appspider.util.convertHeaderStringToJSON(xhr.getAllResponseHeaders());
-                                                            attack.response_content = xhr.responseText;
+                                                            attack.response.headers = appspider.util.convertHeaderStringToJSON(xhr.getAllResponseHeaders());
+                                                            attack.response.content = xhr.responseText;
                                                             /* Save attack to chrome storage */
                                                             var attack_obj = {};
                                                             attack_obj[attack.id] = attack;

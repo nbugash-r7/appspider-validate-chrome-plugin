@@ -4,7 +4,7 @@
 'use strict';
 
 var appSpiderValidateApp = angular.module('appSpiderValidateApp', []);
-var angular = {
+var AppSpider = {
     controller: {
         attack: function ($scope) {
             var attackCtrl = this;
@@ -32,9 +32,9 @@ var angular = {
                  *  3. Save attack and response */
                 appspider.http.send.viaXHR(attack,
                     function (xhr) {
-                        attack.response_headers = appspider.util.convertHeaderStringToJSON(
+                        attack.response.headers = appspider.util.convertHeaderStringToJSON(
                             xhr.getAllResponseHeaders());
-                        attack.response_content = xhr.responseText;
+                        attack.response.content = xhr.responseText;
                         var attack_obj = {};
                         attack_obj[attack.id] = attack;
                         appspider.chrome.storage.local.save(attack_obj, function () {
@@ -46,6 +46,12 @@ var angular = {
                         console.error(xhr.status + ' ' + 'error status ' +
                             error.status + ' for attack id: ' + attack.id);
                     });
+            };
+            attackCtrl.updateAttack = function (id, attribute, updatedValue) {
+                appspider.chrome.storage.local.retrieve(id, function (attack) {
+                    dotObject.str(attribute, updatedValue, attack);
+                    return attack;
+                })
             }
         }
     },
@@ -56,33 +62,48 @@ var angular = {
                 link: function (scope, element, attr, ngModelController) {
                     /* Convert data from view format to model format */
                     ngModelController.$parsers.push(function (data) {
-                        console.log('Convert data from view format to model format');
                     });
 
                     /* Convert data from model format to view format */
                     ngModelController.$formatters.push(function (data) {
-                        console.log('Convert data from model format to view format');
-                        var attackController = new angular.controller.attack(scope);
+                        var attackController = new AppSpider.controller.attack(scope);
                         return attackController.prettifyAttack(data);
                     });
                 }
             };
         },
-        parseRequestHeader: function () {
-            return {
-                link: function (scope, elt, attributes) {
-                    scope.parseRequestHeader = function () {
-                        var url_string = elt.val();
-                        var url = document.createElement('a');
-                        url.href = url_string;
-                        this.attack.headers.REQUEST.uri = url.pathname;
-                        this.attack.headers.Host = url.host;
-                        AppSpider.attack.save(this.attack.id, this.attack);
-                    };
+        monitor: {
+            attack: {
+                headers: {},
+                payload: function () {
+                    return {
+                        require: 'ngModel',
+                        link: function (scope, element, attr, ngModelController) {
+                            scope.$watch('attack.request.payload', function (payload) {
+                                var attackID = scope.attack.id;
+                                console.log("Attack ID: " + attackID + " New payload: " + payload);
+                            });
+                        }
+                    }
+                },
+                request: {
+                    headers: {},
+                    content: function () {
+                        return {
+                            require: 'ngModel',
+                            link: function (scope, element, attr, ngModelController) {
+                                scope.$watch('attack.response.content', function (content) {
+                                    console.log('new content value: ' + content)
+                                })
+                            }
+                        }
+                    }
                 }
-            };
+            }
         }
     }
 };
-appSpiderValidateApp.controller('AttackController', ['$scope', angular.controller.attack]);
-appSpiderValidateApp.directive('appspiderjson', [angular.directive.appspiderJSON]);
+appSpiderValidateApp.controller('AttackController', ['$scope', AppSpider.controller.attack]);
+appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.payload]);
+appSpiderValidateApp.directive('monitorContent', [AppSpider.directive.monitor.attack.content]);
+appSpiderValidateApp.directive('appspiderjson', [AppSpider.directive.appspiderJSON]);

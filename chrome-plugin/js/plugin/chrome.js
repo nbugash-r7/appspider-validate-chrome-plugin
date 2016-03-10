@@ -1,6 +1,7 @@
 /**
  * Created by nbugash on 3/8/16.
  */
+
 if (appspider === undefined) {
     var appspider = {};
 }

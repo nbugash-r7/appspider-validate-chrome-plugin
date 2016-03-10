@@ -43,6 +43,9 @@ appspider.util = {
         return headers;
     },
     convertJSONToString: function (jsonObj) {
+        if (jsonObj === undefined) {
+            return false;
+        }
         var str = '';
         if (jsonObj.REQUEST) {
             str = jsonObj.REQUEST.method + ' ' + jsonObj.REQUEST.uri + ' ' + jsonObj.REQUEST.version + '\r\n';

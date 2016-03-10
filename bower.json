@@ -27,9 +27,15 @@
     "jquery": "^2.2.1",
     "underscore": "^1.8.3",
     "bootstrap-toggle": "^2.2.1",
-    "angular": "^1.5.0"
+    "angular": "^1.5.0",
+    "dot-object": "^1.4.1"
   },
   "overrides": {
+    "dot-object": {
+      "main": [
+        "dist/dot-object.min.js"
+      ]
+    },
     "jquery": {
       "main": [
         "dist/jquery.min.js"

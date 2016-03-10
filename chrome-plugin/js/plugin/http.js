@@ -48,12 +48,12 @@ appspider.http = {
 
             var xhr = new XMLHttpRequest();
             xhr.open(
-                attack.headers.REQUEST.method,
-                'http://' + attack.headers.Host + attack.headers.REQUEST.uri,
+                attack.request.headers.REQUEST.method,
+                'http://' + attack.request.headers.Host + attack.request.headers.REQUEST.uri,
                 true
             );
             console.log('Customizing http request headers for attack id: ' + attack.id);
-            var headers = appspider.http.modifyHeaders(attack.headers);
+            var headers = appspider.http.modifyHeaders(attack.request.headers);
             for (var h in headers) {
                 if (headers.hasOwnProperty(h)) {
                     xhr.setRequestHeader(h, headers[h]);
@@ -95,14 +95,14 @@ appspider.http = {
                 }
             };
 
-            switch (attack.headers.REQUEST.method.toUpperCase()) {
+            switch (attack.request.headers.REQUEST.method.toUpperCase()) {
                 case 'GET':
                     console.log('Sending request using GET XMLHTTPRequest');
                     xhr.send();
                     break;
                 case 'POST':
                     console.log('Sending request using POST XMLHTTPRequest');
-                    xhr.send(attack.payload);
+                    xhr.send(attack.request.payload);
                     break;
                 default:
                     console.error('Background.js: Unable to send request');
@@ -130,12 +130,16 @@ appspider.http = {
             var array = request.split(/(A#B#C#D#E#F#G#H#)/);
             var header_payload = array[0];
             return {
-                headers: header_payload.split('\r\n\r\n')[0].trim(),
-                payload: header_payload.split('\r\n\r\n')[1].trim(),
+                request: {
+                    headers: header_payload.split('\r\n\r\n')[0].trim(),
+                    payload: header_payload.split('\r\n\r\n')[1].trim()
+                },
                 description: array[2].trim(),
-                response_headers: 'Waiting for attack response....(click the ' +
-                'Send request button if response is taking a while)',
-                response_content: ''
+                response: {
+                    headers: 'Waiting for attack response....(click the ' +
+                    'Send request button if response is taking a while)',
+                    content: ''
+                }
             };
         }
 
