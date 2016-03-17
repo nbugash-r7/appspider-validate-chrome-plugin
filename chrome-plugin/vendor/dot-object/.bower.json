@@ -43,6 +43,5 @@
   },
   "_source": "git://github.com/rhalff/dot-object.git",
   "_target": "^1.4.1",
-  "_originalSource": "dot-object",
-  "_direct": true
+  "_originalSource": "dot-object"
 }

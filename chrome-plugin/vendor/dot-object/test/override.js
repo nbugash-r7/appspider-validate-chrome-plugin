@@ -18,7 +18,7 @@ describe('Override test:', function () {
         obj.should.eql({
             'some': 'value',
             'already': {'new': 'value'}
-        })
+    })
     })
 
     it('Redefinition should _not_ fail if override is true (2)', function () {
@@ -35,7 +35,7 @@ describe('Override test:', function () {
         obj.should.eql({
             'some': 'new_value',
             'already': {'new': 'value'}
-        })
+    })
     })
 
     it('Allow override even when target is non-empty object',

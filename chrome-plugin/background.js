@@ -30,6 +30,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                  * e. attack response content
                                  * */
                                 var step = 1;
+                                var parsed_attacked = [];
                                 for (var index = 0; index < requests.length; index++ ) {
                                     if (_.size(requests[index])!= 0 ){
                                         (function(){
@@ -47,10 +48,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                                             attack.response.headers = appspider.util.convertHeaderStringToJSON(xhr.getAllResponseHeaders());
                                                             attack.response.content = xhr.responseText;
                                                             /* Save attack to chrome storage */
-                                                            var attack_obj = {};
-                                                            attack_obj[attack.id] = attack;
-                                                            appspider.chrome.storage.local.save(attack_obj, function () {
+                                                            appspider.chrome.storage.local.saveAttack(attack, function () {
+                                                                parsed_attacked.push(attack.id);
                                                                 console.log('Attack id: ' + attack.id + ' saved!');
+                                                                if (parsed_attacked.length === requests.length) {
+                                                                    appspider.chrome.window.open('plugin.html', 940, 745);
+                                                                }
                                                             });
                                                         },
                                                         function (error) {
@@ -73,7 +76,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                         step++;
                                     }
                                 }
-                                appspider.chrome.window.open('plugin.html', 940, 745);
                             });
                             break;
                         case "sync":

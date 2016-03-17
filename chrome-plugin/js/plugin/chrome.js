@@ -39,13 +39,23 @@ appspider.chrome = {
             },
             retrieve: function (id, callback) {
                 chrome.storage.local.get(id, function (result) {
-                    callback(result);
+                    callback(result[id]);
                 });
             },
             retrieveAll: function (callback) {
                 chrome.storage.local.get(null, function (results) {
                     callback(results);
                 });
+            },
+            getSize: function (callback) {
+                chrome.storage.local.get(null, function (results) {
+                    callback(_.size(results));
+                });
+            },
+            saveAttack: function (attack, callback) {
+                var attackObj = {};
+                attackObj[attack.id] = attack;
+                chrome.storage.local.set(attackObj, callback);
             }
         }
     },
