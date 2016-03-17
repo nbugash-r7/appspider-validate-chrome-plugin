@@ -30,11 +30,6 @@
     "storage",
     "unlimitedStorage",
     "tabs",
-    "activeTab",
-    {
-      "fileSystem": [
-        "write"
-      ]
-    }
+    "activeTab"
   ]
 }
