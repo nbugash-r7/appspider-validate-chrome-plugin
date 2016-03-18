@@ -13,6 +13,7 @@
     <script src="vendor/angular/angular.min.js"></script>
     <script src="vendor/dot-object/dist/dot-object.min.js"></script>
     <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
 
     <!-- bower:css -->
@@ -33,6 +34,8 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/plugin/plugin.css">
     <!-- endinject -->
+
+    <link rel="import" href="modal/cookies.html">
 </head>
 <body>
 <div ng-controller="AttackController as attackCtrl">
@@ -110,7 +113,7 @@
                                             </div><!-- input-group -->
                                         </div>
                                     </div><!-- END appspider-request-section -->
-                                    <div class="appspider-payload-section">
+                                <div class="appspider-payload-section">
                                         <textarea title="appspider-payload" name="appspider-payload" cols="30" rows="10"
                                                   class="form-control" ng-model="attack.request.payload" monitor-payload
                                                   id="attack-payload-{{id}}">Payload</textarea>
@@ -149,11 +152,13 @@
                                                                ng-click="buttonCtrl.setProtocol('HTTPS')">HTTPS</a></li>
                                                     </ul>
                                                 </div>
-                                                <div class="btn-group pull-right">
+                                                <div class="btn-group pull-right"
+                                                     ng-controller="CookieModalController as modalCtrl">
                                                     <button href="#" class="btn btn-default appspider-btn"
                                                             ng-hide="true">Proxy
                                                     </button>
-                                                    <button href="#" class="btn btn-default appspider-btn">Cookies
+                                                    <button type="button" ng-click="modalCtrl.open(id,'sm', attack )"
+                                                            class="btn btn-default appspider-btn">Cookies
                                                     </button>
                                                     <button href="#" class="btn btn-default appspider-btn"
                                                             ng-hide="true">Reset
@@ -164,19 +169,20 @@
                                                     <button href="#" class="btn btn-default appspider-btn"
                                                             ng-hide="true">Compare
                                                     </button>
+
                                                 </div>
                                             </div> <!-- input-group-btn -->
                                         </div> <!-- input-group -->
                                     </div> <!-- END appspider-btn-controls -->
                                 </div> <!-- END appspider-btn-controls-section -->
-                                    <div class="appspider-response-section">
+                                <div class="appspider-response-section">
                                         <h4>Attack Response</h4>
                                         <textarea title="appspider-response-header" name="appspider-response-header"
                                                   class="form-control" cols="30" rows="10"
                                                   ng-model="attack.response.headers"
                                                   id="appspider-response-header-{{id}}" appspiderjson>Attack Response Header</textarea>
                                     </div>
-                                    <div class="appspider-content-section">
+                                <div class="appspider-content-section">
                                         <textarea title="appspider-response-content" name="appspider-response-content"
                                                   class="form-control" cols="30" rows="10"
                                                   ng-model="attack.response.content"

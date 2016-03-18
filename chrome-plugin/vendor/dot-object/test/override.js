@@ -45,7 +45,7 @@ describe('Override test:', function () {
                     dotted: {
                         bar: {
                             baz: 'baz'
-                        }
+            }
                     }
                 }
             }
@@ -63,7 +63,7 @@ describe('Override test:', function () {
                             baz: 'boom'
                         }
                     }
-                }
+        }
             })
         }
     )

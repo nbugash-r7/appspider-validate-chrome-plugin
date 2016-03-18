@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                                                 parsed_attacked.push(attack.id);
                                                                 console.log('Attack id: ' + attack.id + ' saved!');
                                                                 if (parsed_attacked.length === requests.length) {
-                                                                    appspider.chrome.window.open('plugin.html', 940, 745);
+                                                                    appspider.chrome.window.open('plugin.html', 810, 745);
                                                                 }
                                                             });
                                                         },
@@ -118,7 +118,7 @@ chrome.runtime.onConnect.addListener(function(channel) {
                             break;
                     }
                 break;
-                case "cookieapp.js":
+                case "cookieapp.temp.js":
                     switch(message.type) {
                         case "getCurrentStep":
                             channel.postMessage({

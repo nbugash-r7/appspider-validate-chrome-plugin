@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-toggle",
   "description": "Bootstrap Toggle is a highly flexible Bootstrap plugin that converts checkboxes into toggles",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "keywords": [
     "bootstrap",
     "toggle",
@@ -29,11 +29,11 @@
     "test",
     "tests"
   ],
-  "_release": "2.2.1",
+  "_release": "2.2.2",
   "_resolution": {
     "type": "version",
-    "tag": "2.2.1",
-    "commit": "2e73f2a6058cc22109c73a53528a4a44a0ae8bbf"
+    "tag": "2.2.2",
+    "commit": "f043b18456b62b4ce84a455f772b323ebe7fb148"
   },
   "_source": "git://github.com/minhur/bootstrap-toggle.git",
   "_target": "^2.2.1",

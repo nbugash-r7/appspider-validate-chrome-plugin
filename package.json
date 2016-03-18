@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/nbugash-r7/appspider-validate-chrome-plugin#readme",
   "dependencies": {
+    "angular-ui-bootstrap": "^1.2.4",
     "bower": "*",
     "express": "*",
     "prompt": "*"

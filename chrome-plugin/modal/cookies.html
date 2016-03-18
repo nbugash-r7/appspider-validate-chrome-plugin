@@ -1,0 +1,26 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="modalInstanceCtrl.cancel()" aria-hidden="true">×</button>
+    <h3>Cookies</h3>
+</div>
+<div class="modal-body">
+    <div ng-repeat="(key,value) in modalInstanceCtrl.attack.request.headers.Cookie">
+        <div class="input-group">
+            <input type="text" class="form-control cookie" ng-model="key">
+            <span class="input-group-btn"></span>
+            <input type="text" class="form-control cookie" ng-model="value">
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary"
+            ng-click="modalInstanceCtrl.save(modalInstanceCtrl.cookies)">Save changes
+    </button>
+    <button class="btn btn-default" aria-hidden="true" ng-click="modalInstanceCtrl.cancel()">Close</button>
+</div>
+<!-- End Modal -->

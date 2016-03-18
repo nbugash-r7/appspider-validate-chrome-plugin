@@ -3,7 +3,7 @@
  */
 'use strict';
 (function () {
-    var appSpiderValidateApp = angular.module('appSpiderValidateApp', []);
+    var appSpiderValidateApp = angular.module('appSpiderValidateApp', ['ui.bootstrap']);
     var AppSpider = {
         controller: {
             attack: function ($scope) {
@@ -85,8 +85,42 @@
                 };
                 buttonCtrl.exportToFile = function () {
 
-                }
+                };
 
+            },
+            modal: {
+                cookies: function ($scope, $uibModal) {
+                    var cookieModal = this;
+                    cookieModal.open = function (id, size, attack) {
+                        $scope.id = id;
+                        $scope.attack = attack;
+                        var modalInstance = $uibModal.open({
+                            scope: $scope,
+                            animation: true,
+                            templateUrl: 'modal/cookies.html',
+                            controller: AppSpider.controller.modalInstance.cookies,
+                            controllerAs: 'modalInstanceCtrl',
+                            size: size
+                        });
+                    };
+                }
+            },
+            modalInstance: {
+                cookies: function ($scope, $uibModalInstance) {
+                    var modalInstanceCtrl = this;
+                    modalInstanceCtrl.id = $scope.id;
+                    modalInstanceCtrl.attack = $scope.attack;
+                    modalInstanceCtrl.save = function (cookies) {
+                        modalInstanceCtrl.attack.request.headers.Cookie = cookies;
+                        appspider.chrome.storage.local.saveAttack(modalInstanceCtrl.attack, function () {
+                            console.log('Attack ID: ' + modalInstanceCtrl.attack.id + ' saved!');
+                        });
+                        $uibModalInstance.dismiss();
+                    };
+                    modalInstanceCtrl.cancel = function () {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+                }
             }
         },
         directive: {
@@ -108,7 +142,16 @@
             },
             monitor: {
                 attack: {
-                    headers: {},
+                    headers: {
+                        cookies: {
+                            key: function () {
+
+                            },
+                            value: function () {
+
+                            }
+                        }
+                    },
                     payload: function () {
                         return {
                             require: 'ngModel',
@@ -138,7 +181,8 @@
             }
         }
     };
-    appSpiderValidateApp.controller('AttackController', ['$scope', '$timeout', AppSpider.controller.attack]);
+    appSpiderValidateApp.controller('AttackController', ['$scope', AppSpider.controller.attack]);
+    appSpiderValidateApp.controller('CookieModalController', ['$scope', '$uibModal', AppSpider.controller.modal.cookies]);
     appSpiderValidateApp.controller('ButtonController', [AppSpider.controller.button]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.payload]);
     appSpiderValidateApp.directive('monitorContent', [AppSpider.directive.monitor.attack.content]);

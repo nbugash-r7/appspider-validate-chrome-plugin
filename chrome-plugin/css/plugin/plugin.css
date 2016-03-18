@@ -1,3 +1,8 @@
+body {
+    max-width: 1023px;
+    min-width: 769px;
+}
+
 a > img#appspider-logo {
     height: 30px;
 }
@@ -69,4 +74,17 @@ div.appspider-response-section {
 
 div.appspider-content-section {
     padding-top: 10px;
+}
+
+/* Cookie Modal */
+input.cookie {
+    height: 25px;
+}
+
+div.modal-content {
+    max-width: 650px;
+    margin-top: 75px;
+    margin-left: auto;
+    margin-right: auto;
+
 }
