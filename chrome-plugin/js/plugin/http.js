@@ -17,10 +17,9 @@ appspider.http = {
                             switch (header) {
                                 case 'Cookie':
                                     var cookie_str = '';
-                                    for (var key in attack_headers.Cookie) {
-                                        if (attack_headers.Cookie.hasOwnProperty(key)) {
-                                            cookie_str += key + '=' + attack_headers.Cookie[key] + '; ';
-                                        }
+                                    for (var index in attack_headers.Cookie) {
+                                        cookie_str += attack_headers.Cookie[index].key + '=' +
+                                            attack_headers.Cookie[index].value + ';';
                                     }
                                     headers[appspider.chrome.global.TOKEN + header] = cookie_str;
                                     break;

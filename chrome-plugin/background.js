@@ -118,21 +118,6 @@ chrome.runtime.onConnect.addListener(function(channel) {
                             break;
                     }
                 break;
-                case "cookieapp.temp.js":
-                    switch(message.type) {
-                        case "getCurrentStep":
-                            channel.postMessage({
-                                from: "Background.js",
-                                type: "currentStep",
-                                data: {
-                                    current_step: current_step
-                                }
-                            });
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 default:
                     console.error("Background.js: Unable to handle message from '" + channel_name + "'")
                     break;
@@ -150,14 +135,14 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
             var map = {};
             var new_headers = [];
             for( var index = 0; index < headers.length; index++) {
-                if(!headers[index].name.match(new RegExp(AppSpider.TOKEN))){
+                if (!headers[index].name.match(new RegExp(appspider.chrome.global.TOKEN))) {
                     map[headers[index].name] = headers[index].value;
                 }
             }
             for( index = 0; index < headers.length; index++) {
-                if(headers[index].name.match(new RegExp(AppSpider.TOKEN))){
+                if (headers[index].name.match(new RegExp(appspider.chrome.global.TOKEN))) {
                     //slice the name
-                    var name = headers[index].name.slice(AppSpider.TOKEN.length);
+                    var name = headers[index].name.slice(appspider.chrome.global.TOKEN.length);
                     map[name] = headers[index].value;
                 }
             }

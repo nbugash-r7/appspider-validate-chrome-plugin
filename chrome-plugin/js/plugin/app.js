@@ -6,7 +6,7 @@
     var appSpiderValidateApp = angular.module('appSpiderValidateApp', ['ui.bootstrap']);
     var AppSpider = {
         controller: {
-            attack: function ($scope) {
+            attack: function ($scope, $timeout) {
                 $scope.initTab = function (id) {
                     return id === '1';
                 };
@@ -26,7 +26,7 @@
                 };
                 attackCtrl.getAttack = function (id) {
                     appspider.storage.local.retrieve(id, function (attack) {
-                        return attack;
+                        console.log('Attack id: ' + attack.id + ' retrieved!');
                     });
                 };
                 attackCtrl.prettifyAttack = function (headers) {
@@ -99,7 +99,7 @@
                             animation: true,
                             templateUrl: 'modal/cookies.html',
                             controller: AppSpider.controller.modalInstance.cookies,
-                            controllerAs: 'modalInstanceCtrl',
+                            controllerAs: 'cookieCtrl',
                             size: size
                         });
                     };
@@ -107,19 +107,31 @@
             },
             modalInstance: {
                 cookies: function ($scope, $uibModalInstance) {
-                    var modalInstanceCtrl = this;
-                    modalInstanceCtrl.id = $scope.id;
-                    modalInstanceCtrl.attack = $scope.attack;
-                    modalInstanceCtrl.save = function (cookies) {
-                        modalInstanceCtrl.attack.request.headers.Cookie = cookies;
-                        appspider.chrome.storage.local.saveAttack(modalInstanceCtrl.attack, function () {
-                            console.log('Attack ID: ' + modalInstanceCtrl.attack.id + ' saved!');
-                        });
+                    var cookieCtrl = this;
+                    cookieCtrl.id = $scope.id;
+                    cookieCtrl.attack = $scope.attack;
+                    cookieCtrl.cookies = $scope.attack.request.headers.Cookie;
+                    cookieCtrl.save = function (cookies) {
+                        for (var index in cookies) {
+                            delete cookies[index].$$hashKey;
+                        }
+                        cookieCtrl.attack.request.headers.Cookie = cookies;
+                        appspider.chrome.storage.local.saveAttack(cookieCtrl.attack);
                         $uibModalInstance.dismiss();
                     };
-                    modalInstanceCtrl.cancel = function () {
+                    cookieCtrl.addNewCookie = function () {
+                        cookieCtrl.cookies.push({
+                            key: 'Place cookie key here',
+                            value: 'Place cookie value here'
+                        });
+                    };
+                    cookieCtrl.cancel = function () {
                         $uibModalInstance.dismiss('cancel');
                     };
+                    cookieCtrl.removeCookie = function (key) {
+                        cookieCtrl.cookies = _.without(cookieCtrl.cookies,
+                            _.findWhere(cookieCtrl.cookies, {key: key}));
+                    }
                 }
             }
         },
@@ -145,10 +157,27 @@
                     headers: {
                         cookies: {
                             key: function () {
-
+                                return {
+                                    require: 'ngModel',
+                                    link: function (scope, element, attr, ngModelController) {
+                                        scope.$watch('key', function (newKey, oldKey) {
+                                            if (newKey !== oldKey) {
+                                                scope.attack.request.headers.Cookie[newKey] = scope.attack.request.headers.Cookie[oldKey];
+                                                delete scope.attack.request.headers.Cookie[oldKey];
+                                            }
+                                        });
+                                    }
+                                }
                             },
                             value: function () {
-
+                                return {
+                                    require: 'ngModel',
+                                    link: function (scope, element, attr, ngModelController) {
+                                        scope.$watch('value', function (newValue, oldValue) {
+                                            console.log(newValue);
+                                        })
+                                    }
+                                }
                             }
                         }
                     },
@@ -181,10 +210,13 @@
             }
         }
     };
-    appSpiderValidateApp.controller('AttackController', ['$scope', AppSpider.controller.attack]);
+    appSpiderValidateApp.controller('AttackController', ['$scope', '$timeout', AppSpider.controller.attack]);
     appSpiderValidateApp.controller('CookieModalController', ['$scope', '$uibModal', AppSpider.controller.modal.cookies]);
     appSpiderValidateApp.controller('ButtonController', [AppSpider.controller.button]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.payload]);
     appSpiderValidateApp.directive('monitorContent', [AppSpider.directive.monitor.attack.content]);
+    appSpiderValidateApp.directive('monitorCookieKey', [AppSpider.directive.monitor.attack.headers.cookies.key]);
+    appSpiderValidateApp.directive('monitorCookieValue', [AppSpider.directive.monitor.attack.headers.cookies.value]);
     appSpiderValidateApp.directive('appspiderjson', [AppSpider.directive.appspiderJSON]);
+    appSpiderValidateApp.directive('removeOnClick', [AppSpider.directive.removeOnClick]);
 })();

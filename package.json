@@ -8,8 +8,7 @@
     "start": "node server/server.js",
     "update": "npm update",
     "initialize": "node init.js",
-    "bower-update": "bower update",
-    "update-path": "export PATH=$(npm bin):$PATH"
+    "bower update": "bower update"
   },
   "repository": {
     "type": "git",

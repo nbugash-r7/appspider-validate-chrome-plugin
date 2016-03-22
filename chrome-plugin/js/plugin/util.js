@@ -25,14 +25,19 @@ appspider.util = {
                         break;
                     case 'Cookie':
                         var cookiearray = a[a.length - 1].split(';');
-                        var cookieValues = {};
+                        var cookies = [];
                         for (var x = 0; x < cookiearray.length; x++) {
                             if (cookiearray[x].indexOf('=') > -1) {
                                 var array = cookiearray[x].split('=');
-                                cookieValues[array[0].trim()] = array[array.length - 1].trim();
+                                var key = array[0].trim();
+                                var value = array[array.length - 1].trim();
+                                cookies.push({
+                                    key: key,
+                                    value: value
+                                });
                             }
                         }
-                        headers.Cookie = cookieValues;
+                        headers.Cookie = cookies;
                         break;
                     default:
                         headers[header_name] = a[a.length - 1].trim();
@@ -55,7 +60,13 @@ appspider.util = {
                 case 'REQUEST':
                     break; //skip
                 case 'Cookie':
-                    str += key + ': ' + JSON.stringify(jsonObj[key], null, '\t') + '\r\n';
+                    if (Array.isArray(jsonObj[key])) {
+                        str += key + ": { \r\n\t";
+                        for (var index in jsonObj[key]) {
+                            str += jsonObj[key][index].key + ": " + jsonObj[key][index].value + ", \r\n\t";
+                        }
+                        str += "} \r\n";
+                    }
                     break;
                 default:
                     if (typeof jsonObj[key] === 'object') {
