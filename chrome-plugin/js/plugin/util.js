@@ -5,7 +5,63 @@ if (appspider === undefined) {
     var appspider = {};
 }
 appspider.util = {
-    convertHeaderStringToJSON: function (headerString) {
+    parseAttackRequest: function (request, unparsedheaderString) {
+        /* Start */
+        var headerArray = unparsedheaderString.split('\r\n');
+        var headers = [];
+        for (var i = 0; i < headerArray.length; i++) {
+            if (headerArray[i].toUpperCase().match(/(^GET|^POST|^PUT|^DELETE)/)) {
+                var requestArray = headerArray[i].split(' ');
+                request.method = requestArray[0];
+                request.uri = appspider.util.parseUri(appspider.schema.uri(), requestArray[1]);
+                request.version = requestArray[2];
+            } else if (headerArray[i].indexOf(':') > -1) {
+                var a = headerArray[i].split(':');
+                var header_name = a[0].trim();
+                switch (header_name.toLowerCase()) {
+                    case 'referer':
+                        headers.push({
+                            key: 'Referer',
+                            value: a.slice(1).join(':').trim()
+                        });
+                        break;
+                    case 'cookie':
+                        var cookiearray = a[a.length - 1].split(';');
+                        var cookies = [];
+                        for (var x = 0; x < cookiearray.length; x++) {
+                            if (cookiearray[x].indexOf('=') > -1) {
+                                var array = cookiearray[x].split('=');
+                                var key = array[0].trim();
+                                var value = array[array.length - 1].trim();
+                                cookies.push({
+                                    key: key,
+                                    value: value
+                                });
+                            }
+                        }
+                        request.cookie = cookies;
+                        break;
+                    case 'host':
+                        request.uri.url = a[a.length - 1].trim();
+                        headers.push({
+                            key: 'Host',
+                            value: a[a.length - 1].trim()
+                        });
+                        break;
+                    default:
+                        headers.push({
+                            key: header_name,
+                            value: a[a.length - 1].trim()
+                        });
+                        break;
+                }
+            }
+        }
+        request.headers = headers;
+        /* End */
+        return request;
+    },
+    parseAttackResponse: function (headerString) {
         var headerArray = headerString.split('\r\n');
         var headers = [];
         for (var i = 0; i < headerArray.length; i++) {
@@ -88,62 +144,14 @@ appspider.util = {
 
         return attackRequestString;
     },
-    parseAttackRequest: function (request, unparsedheaderString) {
-
-        /* Start */
-        var headerArray = unparsedheaderString.split('\r\n');
-        var headers = [];
-        for (var i = 0; i < headerArray.length; i++) {
-            if (headerArray[i].toUpperCase().match(/(^GET|^POST|^PUT|^DELETE)/)) {
-                var requestArray = headerArray[i].split(' ');
-                request.method = requestArray[0];
-                request.uri = appspider.util.parseUri(appspider.schema.uri(), requestArray[1]);
-                request.version = requestArray[2];
-            } else if (headerArray[i].indexOf(':') > -1) {
-                var a = headerArray[i].split(':');
-                var header_name = a[0].trim();
-                switch (header_name.toLowerCase()) {
-                    case 'referer':
-                        headers.push({
-                            key: 'Referer',
-                            value: a.slice(1).join(':').trim()
-                        });
-                        break;
-                    case 'cookie':
-                        var cookiearray = a[a.length - 1].split(';');
-                        var cookies = [];
-                        for (var x = 0; x < cookiearray.length; x++) {
-                            if (cookiearray[x].indexOf('=') > -1) {
-                                var array = cookiearray[x].split('=');
-                                var key = array[0].trim();
-                                var value = array[array.length - 1].trim();
-                                cookies.push({
-                                    key: key,
-                                    value: value
-                                });
-                            }
-                        }
-                        request.cookie = cookies;
-                        break;
-                    case 'host':
-                        request.uri.url = a[a.length - 1].trim();
-                        headers.push({
-                            key: 'Host',
-                            value: a[a.length - 1].trim()
-                        });
-                        break;
-                    default:
-                        headers.push({
-                            key: header_name,
-                            value: a[a.length - 1].trim()
-                        });
-                        break;
-                }
+    stringifyCookies: function (cookies) {
+        var cookiestr = '';
+        for (var index in cookies) {
+            if (cookies.hasOwnProperty(index)) {
+                cookiestr += cookies[index].key + '=' + cookies[index].value + ';';
             }
         }
-        request.headers = headers;
-        /* End */
-        return request;
+        return cookiestr;
     },
     parseUri: function (uriSchema, unparsedUri) {
         if (unparsedUri.indexOf('?') > 0) {
@@ -153,13 +161,15 @@ appspider.util = {
             var queryArray = queryString.split('&');
             for (var index in queryArray) {
                 if (queryArray.hasOwnProperty(index)) {
-                    uriSchema.parameters[queryArray[index].split('=')[0]] =
-                        queryArray[index].split('=')[1];
+                    uriSchema.parameters.push({
+                        key: queryArray[index].split('=')[0],
+                        value: queryArray[index].split('=')[1]
+                    });
                 }
             }
             uriSchema.queryString = unparsedUri.substring(unparsedUri.indexOf('?'));
         } else {
-            uriSchema.parameters = {};
+            uriSchema.parameters = [];
             uriSchema.path = unparsedUri;
         }
         return uriSchema;
@@ -170,19 +180,10 @@ appspider.util = {
             return str;
         } else {
             str += "?";
-            for (var key in parameters) {
-                str += key + "=" + parameters[key] + "&";
+            for (var index in parameters) {
+                str += parameters[index].key + '=' + parameters[index].value + "&";
             }
             return str.substring(0, str.length - 1);
         }
-    },
-    stringifyCookies: function (cookies) {
-        var cookiestr = '';
-        for (var index in cookies) {
-            if (cookies.hasOwnProperty(index)) {
-                cookiestr += cookies[index].key + '=' + cookies[index].value + ';';
-            }
-        }
-        return cookiestr;
     }
 };

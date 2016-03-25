@@ -81,6 +81,9 @@ appspider.http = {
                 } else {
                     console.log('Background.js - ' + xhr.status + ': Page not found');
                 }
+                xhr.onerror = function(event) {
+                    console.error(event.message);
+                }
             };
 
             switch (attack.request.method.toUpperCase()) {
@@ -111,7 +114,7 @@ appspider.http = {
         }
         return requests;
     },
-    /* Split the request to header, payload, description,
+    /* Split the request to UnparsedHeader, payload, description,
      response header, and response content */
     splitRequest: function (request) {
         if (_.size(request) !== 0) {

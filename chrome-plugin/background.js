@@ -29,9 +29,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                  * d. attack response header
                                  * e. attack response content
                                  * */
-                                var step = 1;
-                                var parsed_attacked = [];
-                                for (var index = 0; index < requests.length; index++ ) {
+                                var saved_attack = [];
+                                for (var index = 0, step = 1; index < requests.length; index++, step++ ) {
                                     if (_.size(requests[index])!= 0 ){
                                         (function(){
                                             /* attack now has headers, payload, description */
@@ -41,41 +40,46 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                             attack.request.payload = request.payload;
                                             attack.description = request.description;
                                             attack.id = step;
-                                            switch (message.data.send_request_as) {
-                                                case 'xmlhttprequest':
-                                                    appspider.http.send.viaXHR(attack,
-                                                        function (xhr) {
-                                                            /* On a successful response */
-                                                            attack.response.headers = appspider.util.convertHeaderStringToJSON(xhr.getAllResponseHeaders());
-                                                            attack.response.content = xhr.responseText;
-                                                            /* Save attack to chrome storage */
-                                                            appspider.chrome.storage.local.saveAttack(attack, function () {
-                                                                parsed_attacked.push(attack.id);
-                                                                console.log('Attack id: ' + attack.id + ' saved!');
-                                                                if (parsed_attacked.length === requests.length) {
-                                                                    appspider.chrome.window.open('plugin.html', 810, 745);
-                                                                }
-                                                            });
-                                                        },
-                                                        function (error) {
-                                                            /* On an error response */
-                                                            console.error('Background.js: ' + xhr.status + ' ' +
-                                                                'error status ' + error.status + ' for attack id: ' +
-                                                                attack.id);
-                                                        }
-                                                    );
-                                                    break;
-                                                case 'ajax':
-                                                    console.log('Sending http request via ajax is not yet implemented');
-                                                    break;
-                                                default:
-                                                    console.error('Error: Unable to verify method of sending data!');
-                                                    break;
-                                            }
-
+                                            appspider.chrome.storage.local.saveAttack(attack, function() {
+                                                console.log('Attack ' + attack.id + ' saved!!');
+                                                saved_attack.push(attack);
+                                            });
                                         })();
-                                        step++;
                                     }
+                                }
+                                /* Sending only attack id 1 */
+                                var attack = saved_attack[0];
+                                switch (message.data.send_request_as) {
+                                    case 'xmlhttprequest':
+                                        if(attack) {
+                                            appspider.http.send.viaXHR(attack,
+                                                function (xhr) {
+                                                    /* On a successful response */
+                                                    attack.response.headers = appspider.util.parseAttackResponse(xhr.getAllResponseHeaders());
+                                                    attack.response.content = xhr.responseText;
+                                                    /* Save attack to chrome storage */
+                                                    appspider.chrome.storage.local.saveAttack(attack, function () {
+                                                        console.log('Attack id: ' + attack.id + ' saved!');
+                                                        appspider.chrome.window.open('plugin.html', 810, 745);
+                                                    });
+                                                },
+                                                function (error) {
+                                                    /* On an error response */
+                                                    console.error('Background.js: ' + xhr.status + ' ' +
+                                                        'error status ' + error.status + ' for attack id: ' +
+                                                        attack.id);
+                                                }
+                                            );
+                                        } else {
+                                            console.error('Attack is undefined');
+                                        }
+                                        break;
+                                    case 'ajax':
+                                        console.log('Sending http request via ajax is not yet implemented');
+                                        break;
+                                    default:
+                                        console.error('Error: Unable to verify method of sending data!');
+                                        break;
                                 }
                             });
                             break;

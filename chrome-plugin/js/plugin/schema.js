@@ -26,7 +26,7 @@ appspider.schema = {
     },
     uri: function() {
         return {
-            parameters: {},
+            parameters: [],
             protocol: 'http',
             url: '',
             path: '',

@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="vendor/bootstrap-toggle/css/bootstrap-toggle.min.css" />
     <!-- endbower -->
 
+    <!-- components:js -->
+
+    <!-- endcomponents -->
+
     <!-- inject:js -->
     <script src="/js/plugin/animation.js"></script>
     <script src="/js/plugin/app.js"></script>
@@ -46,7 +50,7 @@
         <nav class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li ng-repeat="(id, attack) in attackCtrl.attacks" ng-class="{active: initTab(id)}">
-                    <a href="#step{{id}}" data-toggle="tab">Step {{id}}</a>
+                    <a href="#step{{id}}" data-toggle="tab" ng-click="attackCtrl.resendAttack(attack)">Step {{id}}</a>
                 </li>
             </ul>
         </nav>

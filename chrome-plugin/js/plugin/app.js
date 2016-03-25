@@ -6,7 +6,7 @@
     var appSpiderValidateApp = angular.module('appSpiderValidateApp', ['ui.bootstrap']);
     var AppSpider = {
         controller: {
-            attack: function ($scope, $timeout) {
+            attack: function ($scope) {
                 $scope.initTab = function (id) {
                     return id === '1';
                 };
@@ -35,7 +35,7 @@
                      *  3. Save attack and response */
                     appspider.http.send.viaXHR(attack,
                         function (xhr) {
-                            attack.response.headers = appspider.util.convertHeaderStringToJSON(
+                            attack.response.headers = appspider.util.parseAttackResponse(
                                 xhr.getAllResponseHeaders());
                             attack.response.content = xhr.responseText;
                             var attack_obj = {};
@@ -83,8 +83,10 @@
                 buttonCtrl.disabled = function (responseHeader) {
                     for (var index in responseHeader) {
                         if (responseHeader.hasOwnProperty(index)) {
-                            if (responseHeader[index].key.toLowerCase() === 'content-type' &&
-                                responseHeader[index].value.toLowerCase() === 'text/html') {
+                            if (responseHeader[index].key &&
+                                responseHeader[index].value &&
+                                responseHeader[index].key.toLowerCase() === 'content-type' &&
+                                responseHeader[index].value === 'text/html') {
                                 return false;
                             }
                         }
@@ -147,7 +149,9 @@
                     cookieCtrl.cookies = cookieCtrl.attack.request.cookie;
                     cookieCtrl.save = function (cookies) {
                         cookieCtrl.attack.request.cookie = cookies;
-                        appspider.chrome.storage.local.saveAttack(cookieCtrl.attack);
+                        appspider.chrome.storage.local.saveAttack(cookieCtrl.attack, function() {
+                            console.log('Attack ' + attack.id + ' saved!!');
+                        });
                         $uibModalInstance.dismiss();
                     };
                     cookieCtrl.addNewCookie = function () {
@@ -188,13 +192,33 @@
                     headerCtrl.removeHeaders = function(key) {
                         headerCtrl.headers = _.without(headerCtrl.headers,
                             _.findWhere(headerCtrl.headers, { key: key}));
-                    }
+                    };
                 },
                 parameters: function($scope, $uibModalInstance) {
                     var paramCtrl = this;
                     paramCtrl.attack = $scope.attack;
                     paramCtrl.parameters = paramCtrl.attack.request.uri.parameters;
-
+                    paramCtrl.addNewParams = function() {
+                        paramCtrl.parameters.push({
+                            key: 'Place new key here',
+                            value: 'Place value here'
+                        });
+                    };
+                    paramCtrl.removeParameters = function(key) {
+                        paramCtrl.parameters = _.without(paramCtrl.parameters,
+                            _.findWhere(paramCtrl.parameters, {key: key}));
+                    };
+                    paramCtrl.cancel = function() {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+                    paramCtrl.saveParameters = function(params) {
+                        paramCtrl.attack.request.uri.parameters = params;
+                        paramCtrl.attack.request.uri.queryString = appspider.util.queryString(params);
+                        appspider.chrome.storage.local.saveAttack(paramCtrl.attack, function() {
+                            console.log('Attack ' + attack.id + ' saved!!');
+                        });
+                        $uibModalInstance.dismiss();
+                    }
                 }
             }
         },
@@ -258,7 +282,7 @@
             }
         }
     };
-    appSpiderValidateApp.controller('AttackController', ['$scope', '$timeout', AppSpider.controller.attack]);
+    appSpiderValidateApp.controller('AttackController', ['$scope', AppSpider.controller.attack]);
     appSpiderValidateApp.controller('CookieModalController', ['$scope', '$uibModal', AppSpider.controller.modal.cookies]);
     appSpiderValidateApp.controller('HeaderModalController', ['$scope', '$uibModal', AppSpider.controller.modal.headers]);
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
