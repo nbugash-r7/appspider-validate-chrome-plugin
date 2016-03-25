@@ -54,8 +54,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                             appspider.http.send.viaXHR(saved_attacks[0],
                                                 function (xhr) {
                                                     /* On a successful response */
-                                                    saved_attacks[0].response.headers = appspider.util.parseAttackResponse(xhr.getAllResponseHeaders());
-                                                    saved_attacks[0].response.content = xhr.responseText;
+                                                    saved_attacks[0].response = appspider.util.parseAttackResponse(appspider.schema.response(), xhr);
                                                     /* Save attack to chrome storage */
                                                     appspider.chrome.storage.local.saveAttack(saved_attacks[0], function () {
                                                         console.log('Attack id: ' + saved_attacks[0].id + ' saved!');

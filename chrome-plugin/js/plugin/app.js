@@ -35,12 +35,8 @@
                      *  3. Save attack and response */
                     appspider.http.send.viaXHR(attack,
                         function (xhr) {
-                            attack.response.headers = appspider.util.parseAttackResponse(
-                                xhr.getAllResponseHeaders());
-                            attack.response.content = xhr.responseText;
-                            var attack_obj = {};
-                            attack_obj[attack.id] = attack;
-                            appspider.chrome.storage.local.save(attack_obj, function () {
+                            attack.response = appspider.util.parseAttackResponse(appspider.schema.response(), xhr);
+                            appspider.chrome.storage.local.saveAttack(attack, function () {
                                 console.log('Attack id: ' + attack.id + ' saved!');
                             })
                         },

@@ -5,16 +5,16 @@ if (appspider === undefined) {
     var appspider = {};
 }
 appspider.util = {
-    parseAttackRequest: function (request, unparsedheaderString) {
+    parseAttackRequest: function (requestSchema, unparsedheaderString) {
         /* Start */
         var headerArray = unparsedheaderString.split('\r\n');
         var headers = [];
         for (var i = 0; i < headerArray.length; i++) {
             if (headerArray[i].toUpperCase().match(/(^GET|^POST|^PUT|^DELETE)/)) {
                 var requestArray = headerArray[i].split(' ');
-                request.method = requestArray[0];
-                request.uri = appspider.util.parseUri(appspider.schema.uri(), requestArray[1]);
-                request.version = requestArray[2];
+                requestSchema.method = requestArray[0];
+                requestSchema.uri = appspider.util.parseUri(appspider.schema.uri(), requestArray[1]);
+                requestSchema.version = requestArray[2];
             } else if (headerArray[i].indexOf(':') > -1) {
                 var a = headerArray[i].split(':');
                 var header_name = a[0].trim();
@@ -39,10 +39,10 @@ appspider.util = {
                                 });
                             }
                         }
-                        request.cookie = cookies;
+                        requestSchema.cookie = cookies;
                         break;
                     case 'host':
-                        request.uri.url = a[a.length - 1].trim();
+                        requestSchema.uri.url = a[a.length - 1].trim();
                         headers.push({
                             key: 'Host',
                             value: a[a.length - 1].trim()
@@ -57,63 +57,26 @@ appspider.util = {
                 }
             }
         }
-        request.headers = headers;
+        requestSchema.headers = headers;
         /* End */
-        return request;
+        return requestSchema;
     },
-    parseAttackResponse: function (headerString) {
+    parseAttackResponse: function (responseSchema, xhr) {
+        var headerString = xhr.getAllResponseHeaders();
         var headerArray = headerString.split('\r\n');
         var headers = [];
+        var content = xhr.responseText;
         for (var i = 0; i < headerArray.length; i++) {
-            if (headerArray[i].toUpperCase().match(/(^GET|^POST|^PUT|^DELETE)/)) {
-                var requestArray = headerArray[i].split(' ');
-                headers.push({
-                    key: 'REQUEST',
-                    value: {
-                        method: requestArray[0],
-                        uri: requestArray[1],
-                        version: requestArray[2]
-                    }
-                });
-            } else if (headerArray[i].indexOf(':') > -1) {
-                var a = headerArray[i].split(':');
-                var header_name = a[0].trim();
-                switch (header_name) {
-                    case 'Referer':
-                        headers.push({
-                            key: 'Referer',
-                            value: a.slice(1).join(':').trim()
-                        });
-                        break;
-                    case 'Cookie':
-                        var cookiearray = a[a.length - 1].split(';');
-                        var cookies = [];
-                        for (var x = 0; x < cookiearray.length; x++) {
-                            if (cookiearray[x].indexOf('=') > -1) {
-                                var array = cookiearray[x].split('=');
-                                var key = array[0].trim();
-                                var value = array[array.length - 1].trim();
-                                cookies.push({
-                                    key: key,
-                                    value: value
-                                });
-                            }
-                        }
-                        headers.push({
-                            key: 'Cookie',
-                            value: cookies
-                        });
-                        break;
-                    default:
-                        headers.push({
-                            key: header_name,
-                            value: a[a.length - 1].trim()
-                        });
-                        break;
-                }
-            }
+            var a = headerArray[i].split(':');
+            var header_name = a[0].trim();
+            headers.push({
+                key: header_name,
+                value: a[a.length - 1].trim()
+            });
         }
-        return headers;
+        responseSchema.headers = headers;
+        responseSchema.content = content;
+        return responseSchema;
     },
     stringifyAttackResponse: function (headers) {
         var attackResponseString = '';
