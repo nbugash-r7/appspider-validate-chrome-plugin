@@ -4,7 +4,7 @@
     <h3>Cookies</h3>
 </div>
 <div class="modal-body">
-    <div ng-repeat="cookie in cookieCtrl.cookies">
+    <div ng-repeat="cookie in cookieCtrl.cookies track by cookie.key">
         <div class="input-group">
             <input class="form-control cookie" type="text" ng-model="cookie.key">
             <span class="input-group-btn"></span>
@@ -19,10 +19,10 @@
         </div>
     </div>
     <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="cookieCtrl.addNewCookie()"> Add new cookie</button>
+        <button class="btn btn-default appspider-btn" type="button" ng-click="cookieCtrl.addNewCookie()"> Add new cookie</button>
     </span>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="cookieCtrl.save(cookieCtrl.cookies)">Save changes</button>
+    <button class="btn btn-primary appspider-btn" ng-click="cookieCtrl.save(cookieCtrl.cookies)">Save changes</button>
 </div>
 <!-- End Modal -->

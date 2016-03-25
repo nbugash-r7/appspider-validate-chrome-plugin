@@ -35,11 +35,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                     if (_.size(requests[index])!= 0 ){
                                         (function(){
                                             /* attack now has headers, payload, description */
-                                            var attack = appspider.http.splitRequest(requests[index]);
-                                            /* setting the attack id */
+                                            var request = appspider.http.splitRequest(requests[index]);
+                                            var attack = appspider.schema.attack();
+                                            attack.request = appspider.util.parseAttackRequest(appspider.schema.request(), request.unParsedHeaders);
+                                            attack.request.payload = request.payload;
+                                            attack.description = request.description;
                                             attack.id = step;
-                                            /* converting headers from String to JSON object */
-                                            attack.request.headers = appspider.util.convertHeaderStringToJSON(attack.request.headers);
                                             switch (message.data.send_request_as) {
                                                 case 'xmlhttprequest':
                                                     appspider.http.send.viaXHR(attack,

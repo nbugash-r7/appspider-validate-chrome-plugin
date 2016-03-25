@@ -1,0 +1,7 @@
+$arrows: r7-icon-arrow r7-icon-arrowside r7-icon-arrowup;
+
+@each $arrow in $arrows {
+    .#{$arrow} {
+        cursor: pointer;
+    }
+}

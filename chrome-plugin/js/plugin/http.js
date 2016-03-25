@@ -11,27 +11,14 @@ appspider.http = {
         var headers = {};
         switch (typeof attack_headers) {
             case 'object':
-                for (var header in attack_headers) {
-                    if (attack_headers.hasOwnProperty(header)) {
-                        if (_.contains(appspider.chrome.global.RESTRICTED_CHROME_HEADERS, header.toLocaleUpperCase())) {
-                            switch (header) {
-                                case 'Cookie':
-                                    var cookie_str = '';
-                                    for (var index in attack_headers.Cookie) {
-                                        cookie_str += attack_headers.Cookie[index].key + '=' +
-                                            attack_headers.Cookie[index].value + ';';
-                                    }
-                                    headers[appspider.chrome.global.TOKEN + header] = cookie_str;
-                                    break;
-                                case 'REQUEST':
-                                    break; //skip
-                                default:
-                                    headers[appspider.chrome.global.TOKEN + header] = attack_headers[header];
-                                    break;
-                            }
+                for (var index in attack_headers) {
+                    if (attack_headers.hasOwnProperty(index)) {
+                        var header = attack_headers[index].key;
+                        if (_.contains(appspider.chrome.global.RESTRICTED_CHROME_HEADERS, header.toUpperCase())) {
+                            headers[appspider.chrome.global.TOKEN + header] = attack_headers[index].value;
+                        } else {
+                            headers[header] = attack_headers[index].value;
                         }
-                    } else {
-                        headers[header] = attack_headers[header];
                     }
                 }
                 break;
@@ -47,12 +34,14 @@ appspider.http = {
 
             var xhr = new XMLHttpRequest();
             xhr.open(
-                attack.request.headers.REQUEST.method,
-                'http://' + attack.request.headers.Host + attack.request.headers.REQUEST.uri,
+                attack.request.method,
+                attack.request.uri.protocol + '://' + attack.request.uri.url + attack.request.uri.path + attack.request.uri.queryString,
                 true
             );
             console.log('Customizing http request headers for attack id: ' + attack.id);
             var headers = appspider.http.modifyHeaders(attack.request.headers);
+            headers[appspider.chrome.global.TOKEN + 'cookie'] = appspider.util.stringifyCookies(attack.request.cookie);
+            /* Request headers */
             for (var h in headers) {
                 if (headers.hasOwnProperty(h)) {
                     xhr.setRequestHeader(h, headers[h]);
@@ -94,7 +83,7 @@ appspider.http = {
                 }
             };
 
-            switch (attack.request.headers.REQUEST.method.toUpperCase()) {
+            switch (attack.request.method.toUpperCase()) {
                 case 'GET':
                     console.log('Sending request using GET XMLHTTPRequest');
                     xhr.send();
@@ -129,16 +118,9 @@ appspider.http = {
             var array = request.split(/(A#B#C#D#E#F#G#H#)/);
             var header_payload = array[0];
             return {
-                request: {
-                    headers: header_payload.split('\r\n\r\n')[0].trim(),
-                    payload: header_payload.split('\r\n\r\n')[1].trim()
-                },
-                description: array[2].trim(),
-                response: {
-                    headers: 'Waiting for attack response....(click the ' +
-                    'Send request button if response is taking a while)',
-                    content: ''
-                }
+                unParsedHeaders: header_payload.split('\r\n\r\n')[0].trim(),
+                payload: header_payload.split('\r\n\r\n')[1].trim(),
+                description: array[2].trim()
             };
         }
 

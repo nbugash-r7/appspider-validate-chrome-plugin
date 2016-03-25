@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" aria-hidden="true">×</button>
+    <h3>Parameters</h3>
+</div>
+<div class="modal-body">
+    <div ng-repeat="(key,value) in paramCtrl.parameters">
+        <div class="input-group">
+            <input class="form-control cookie" type="text" ng-model="key">
+            <span class="input-group-btn"></span>
+            <input class="form-control cookie" type="text" ng-model="value">
+            <span class="input-group-btn"></span>
+            <span class="input-group-btn">
+                <button class="btn btn-danger" type="button">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    <span class="input-group-btn">
+        <button class="btn btn-default appspider-btn" type="button">Add new parameters</button>
+    </span>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary">Save changes</button>
+</div>
+<!-- End Modal -->

@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="headerCtrl.close()" aria-hidden="true">×</button>
+    <h3>Request Headers</h3>
+</div>
+<div class="modal-body">
+    <div ng-repeat="header in headerCtrl.headers track by header.key">
+        <div class="input-group">
+            <input class="form-control cookie" type="text"
+                   ng-model="header.key">
+            <span class="input-group-btn"></span>
+            <input class="form-control cookie" type="text"
+                   ng-model="header.value">
+            <span class="input-group-btn"></span>
+            <span class="input-group-btn">
+                <button class="btn btn-danger" type="button"
+                        ng-click="headerCtrl.removeHeaders(header.key)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    <span class="input-group-btn">
+        <button class="btn btn-default appspider-btn" type="button"
+                ng-click="headerCtrl.addNewHeaders()">Add new headers</button>
+    </span>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary appspider-btn" type="button"
+            ng-click="headerCtrl.saveHeaders(headerCtrl.headers)">Save changes</button>
+</div>
+<!-- End Modal -->

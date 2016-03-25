@@ -73,6 +73,7 @@ $theme: 'dark' !default;
 // Base element styles
 @import "elements/_buttons.scss";
 @import "elements/_dropdown.scss";
+@import "elements/_icons.scss";
 
 //Rapid7 Styles
 @import "_rapid7.scss";

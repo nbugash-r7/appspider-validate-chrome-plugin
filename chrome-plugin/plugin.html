@@ -73,45 +73,47 @@
                                 <h4>Attack Request</h4>
                                 <div class="view appspider-request-section"
                                      ng-controller="ButtonController as buttonCtrl">
-                                    <div class="raw" ng-show="true">
-                                            <!--Raw View-->
-                                            <textarea title="appspider-title" class="form-control container-fluid"
-                                                      name="attack-request-header" cols="30" rows="10" appspiderjson
-                                                      readonly ng-model="attack.request.headers"
-                                                      id="appspider-request-header-{{id}}">Request Headers Here</textarea>
+                                    <div class="input-group attack-url">
+                                        <div class="input-group-btn">
+                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle appspider-btn">
+                                                {{attack.request.method | uppercase}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#" class="dropdown-item"
+                                                    ng-click="attackCtrl.updateAttack(attack, 'method', 'GET')">GET</a>
+                                                </li>
+                                                <li><a href="#" class="dropdown-item"
+                                                       ng-click="attackCtrl.updateAttack(attack, 'method', 'POST')">POST</a>
+                                                </li>
+                                                <li ng-hide="true" class="dropdown-item"><a href="#">HEAD</a>
+                                                </li>
+                                                <li ng-hide="true" class="dropdown-item"><a href="#">DELETE</a>
+                                                </li>
+                                                <li ng-hide="true" class="dropdown-item"><a href="#">PUT</a>
+                                                </li>
+                                                <li ng-hide="true" class="dropdown-item"><a href="#">TRACE</a>
+                                                </li>
+                                                <li ng-hide="true" class="dropdown-item"><a href="#">CONNECT</a>
+                                                </li>
+                                            </ul>
+                                        </div> <!-- input-group-btn -->
+                                        <input type="text" class="form-control" aria-label="Attack url"
+                                            value="{{attack.request.uri.protocol}}://{{attack.request.uri.url}}{{attack.request.uri.path}}{{attack.request.uri.queryString}}"/>
+                                        <div class="input-group-btn" ng-controller="ParameterModalController as paramCtrl">
+                                            <button class="btn btn-default appspider-btn" aria-haspopup="true"
+                                                    aria-expanded="false" ng-click="paramCtrl.open(id, 'lg', attack)">
+                                                Add parameters
+                                            </button>
                                         </div>
-                                    <div class="prettify" ng-show="false">
-                                            <!--Prettify view-->
-                                        <div class="input-group" ng-controller="ButtonController as buttonCtrl">
-                                                <div class="input-group-btn">
-                                                    <a href="#" data-toggle="dropdown"
-                                                       class="btn btn-default dropdown-toggle appspider-btn"
-                                                       ng-model="attack.request.headers.REQUEST.method"><span
-                                                            class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="#" class="dropdown-item"
-                                                               ng-click="attackCtrl.updateAttack(id, 'request.headers.REQUEST.method','GET')">GET</a>
-                                                        </li>
-                                                        <li><a href="#" class="dropdown-item"
-                                                               ng-click="attackCtrl.updateAttack(id, 'request.headers.REQUEST.method','POST')">POST</a>
-                                                        </li>
-                                                        <li ng-hide="true" class="dropdown-item"><a href="#">HEAD</a>
-                                                        </li>
-                                                        <li ng-hide="true" class="dropdown-item"><a href="#">DELETE</a>
-                                                        </li>
-                                                        <li ng-hide="true" class="dropdown-item"><a href="#">PUT</a>
-                                                        </li>
-                                                        <li ng-hide="true" class="dropdown-item"><a href="#">TRACE</a>
-                                                        </li>
-                                                        <li ng-hide="true" class="dropdown-item"><a href="#">CONNECT</a>
-                                                        </li>
-                                                    </ul>
-                                                </div> <!-- input-group-btn -->
-                                            <input type="text" class="form-control"
-                                                   value="{{buttonCtrl.protocol.toLowerCase()}}://{{attack.request.headers.Host}}{{attack.request.headers.REQUEST.uri}}">
-                                            </div><!-- input-group -->
-                                        </div>
+                                    </div>
+                                    <div class="raw" ng-show="true" ng-controller="HeaderModalController as headerCtrl">
+                                        <!--Raw View-->
+                                        <textarea title="appspider-title" class="form-control container-fluid"
+                                                  name="attack-request-header" cols="30" rows="10"
+                                                  readonly ng-model="attack.request" attack-request-json
+                                                  ng-click="headerCtrl.open(id, 'lg', attack)"
+                                                  id="appspider-request-header-{{id}}">Request Headers Here</textarea>
+                                    </div>
                                     </div><!-- END appspider-request-section -->
                                 <div class="appspider-payload-section">
                                         <textarea title="appspider-payload" name="appspider-payload" cols="30" rows="10"
@@ -124,40 +126,24 @@
                                         <div class="input-group">
                                             <div class="input-group-btn">
                                                 <div class="btn-group">
-                                                    <label>View as: </label>
-                                                    <button data-toggle="dropdown"
-                                                            class="btn btn-default dropdown-toggle appspider-btn">
-                                                        {{buttonCtrl.view}} <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a class="dropdown-item" href="#"
-                                                               ng-click="buttonCtrl.setView('RAW')">Raw (read only)</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item" href="#"
-                                                               ng-click="buttonCtrl.setView('Prettify')" ng-hide="true">Prettify
-                                                            (editable)</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="btn-group">
                                                     <label>Protocol: </label>
                                                     <button data-toggle="dropdown"
                                                             class="btn btn-default dropdown-toggle appspider-btn">
-                                                        {{buttonCtrl.protocol}} <span class="caret"></span>
+                                                        {{attack.request.uri.protocol | uppercase}} <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li><a href="#" class="dropdown-item"
-                                                               ng-click="buttonCtrl.setProtocol('HTTP')">HTTP</a></li>
+                                                               ng-click="attackCtrl.updateAttack(attack,'protocol','http')">HTTP</a></li>
                                                         <li><a href="#" class="dropdown-item"
-                                                               ng-click="buttonCtrl.setProtocol('HTTPS')">HTTPS</a></li>
+                                                               ng-click="attackCtrl.updateAttack(attack,'protocol','https')">HTTPS</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="btn-group pull-right"
-                                                     ng-controller="CookieModalController as modalCtrl">
+                                                     ng-controller="CookieModalController as cookielCtrl">
                                                     <button href="#" class="btn btn-default appspider-btn"
                                                             ng-hide="true">Proxy
                                                     </button>
-                                                    <button type="button" ng-click="modalCtrl.open(id,'sm', attack )"
+                                                    <button type="button" ng-click="cookielCtrl.open(id,'sm', attack )"
                                                             class="btn btn-default appspider-btn">Cookies
                                                     </button>
                                                     <button href="#" class="btn btn-default appspider-btn"
@@ -178,15 +164,15 @@
                                 <div class="appspider-response-section">
                                         <h4>Attack Response</h4>
                                         <textarea title="appspider-response-header" name="appspider-response-header"
-                                                  class="form-control" cols="30" rows="10"
-                                                  ng-model="attack.response.headers"
-                                                  id="appspider-response-header-{{id}}" appspiderjson>Attack Response Header</textarea>
+                                                  class="form-control" cols="30" rows="10" attack-response-json
+                                                  ng-model="attack.response.headers" id="appspider-response-header-{{id}}">
+                                        </textarea>
                                     </div>
                                 <div class="appspider-content-section">
                                         <textarea title="appspider-response-content" name="appspider-response-content"
-                                                  class="form-control" cols="30" rows="10"
-                                                  ng-model="attack.response.content"
-                                                  id="appspider-response-content-{{id}}">Attack Response Content</textarea>
+                                                  class="form-control" cols="30" rows="10" ng-model="attack.response.content"
+                                                  id="appspider-response-content-{{id}}">
+                                        </textarea>
                                     </div>
                                 <div class="appspider-btn-controls" ng-controller="ButtonController as buttonCtrl">
                                     <div class="input-group">
@@ -196,7 +182,7 @@
                                                     vulnerabilities
                                                 </button>
                                                 <button class="btn btn-default appspider-btn"
-                                                        ng-class="{disabled: buttonCtrl.disabled(attack.response.headers['Content-Type'])}">
+                                                        ng-class="{disabled: buttonCtrl.disabled(attack.response.headers)}">
                                                     Show in Browser
                                                 </button>
                                             </div>
