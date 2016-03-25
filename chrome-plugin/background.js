@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                  * d. attack response header
                                  * e. attack response content
                                  * */
-                                var saved_attack = [];
+                                var saved_attacks = [];
                                 for (var index = 0, step = 1; index < requests.length; index++, step++ ) {
                                     if (_.size(requests[index])!= 0 ){
                                         (function(){
@@ -40,26 +40,25 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                             attack.request.payload = request.payload;
                                             attack.description = request.description;
                                             attack.id = step;
+                                            saved_attacks.push(attack);
                                             appspider.chrome.storage.local.saveAttack(attack, function() {
                                                 console.log('Attack ' + attack.id + ' saved!!');
-                                                saved_attack.push(attack);
                                             });
                                         })();
                                     }
                                 }
                                 /* Sending only attack id 1 */
-                                var attack = saved_attack[0];
                                 switch (message.data.send_request_as) {
                                     case 'xmlhttprequest':
-                                        if(attack) {
-                                            appspider.http.send.viaXHR(attack,
+                                        if(saved_attacks[0]) {
+                                            appspider.http.send.viaXHR(saved_attacks[0],
                                                 function (xhr) {
                                                     /* On a successful response */
-                                                    attack.response.headers = appspider.util.parseAttackResponse(xhr.getAllResponseHeaders());
-                                                    attack.response.content = xhr.responseText;
+                                                    saved_attacks[0].response.headers = appspider.util.parseAttackResponse(xhr.getAllResponseHeaders());
+                                                    saved_attacks[0].response.content = xhr.responseText;
                                                     /* Save attack to chrome storage */
-                                                    appspider.chrome.storage.local.saveAttack(attack, function () {
-                                                        console.log('Attack id: ' + attack.id + ' saved!');
+                                                    appspider.chrome.storage.local.saveAttack(saved_attacks[0], function () {
+                                                        console.log('Attack id: ' + saved_attacks[0].id + ' saved!');
                                                         appspider.chrome.window.open('plugin.html', 810, 745);
                                                     });
                                                 },
@@ -67,7 +66,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                                     /* On an error response */
                                                     console.error('Background.js: ' + xhr.status + ' ' +
                                                         'error status ' + error.status + ' for attack id: ' +
-                                                        attack.id);
+                                                        saved_attacks[0].id);
                                                 }
                                             );
                                         } else {
