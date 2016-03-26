@@ -211,7 +211,7 @@
                         paramCtrl.attack.request.uri.parameters = params;
                         paramCtrl.attack.request.uri.queryString = appspider.util.queryString(params);
                         appspider.chrome.storage.local.saveAttack(paramCtrl.attack, function() {
-                            console.log('Attack ' + attack.id + ' saved!!');
+                            console.log('Attack ' + paramCtrl.attack.id + ' saved!!');
                         });
                         $uibModalInstance.dismiss();
                     }
