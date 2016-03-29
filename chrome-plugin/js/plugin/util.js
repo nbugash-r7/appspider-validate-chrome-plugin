@@ -68,15 +68,43 @@ appspider.util = {
         var content = xhr.responseText;
         for (var i = 0; i < headerArray.length; i++) {
             var a = headerArray[i].split(':');
-            var header_name = a[0].trim();
-            headers.push({
-                key: header_name,
-                value: a[a.length - 1].trim()
-            });
+            if (a[0].trim() !== '') {
+                headers.push({
+                    key: a[0].trim(),
+                    value: a[1].trim()
+                });
+            }
         }
         responseSchema.headers = headers;
         responseSchema.content = content;
         return responseSchema;
+    },
+    parseUri: function (uriSchema, unparsedUri) {
+        if (unparsedUri.indexOf('?') > 0) {
+            uriSchema.path = unparsedUri.substring(0, unparsedUri.indexOf('?'));
+            uriSchema.parameters = appspider.util.parseQueryString(unparsedUri.substring(unparsedUri.indexOf('?') + 1));
+            uriSchema.queryString = unparsedUri.substring(unparsedUri.indexOf('?'));
+        } else {
+            uriSchema.parameters = [];
+            uriSchema.path = unparsedUri;
+        }
+        return uriSchema;
+    },
+    parseQueryString: function(queryString) {
+        if (queryString.indexOf('?') === 0 ) {
+            queryString = queryString.slice(1);
+        }
+        var parameters = [];
+        var queryArray = queryString.split('&');
+        for (var index in queryArray) {
+            if (queryArray.hasOwnProperty(index)) {
+                parameters.push({
+                    key: queryArray[index].split('=')[0],
+                    value: queryArray[index].split('=')[1]
+                });
+            }
+        }
+        return parameters;
     },
     stringifyAttackResponse: function (headers) {
         var attackResponseString = '';
@@ -89,7 +117,7 @@ appspider.util = {
     },
     stringifyAttackRequest: function (request) {
         var attackRequestString = '';
-        attackRequestString += request.method + ' ' + request.uri.path + request.uri.queryString +
+         attackRequestString += request.method + ' ' + request.uri.path + request.uri.queryString +
             ' ' + request.version + '\r\n';
         for (var index in request.headers) {
             if (request.headers.hasOwnProperty(index)) {
@@ -115,27 +143,6 @@ appspider.util = {
             }
         }
         return cookiestr;
-    },
-    parseUri: function (uriSchema, unparsedUri) {
-        if (unparsedUri.indexOf('?') > 0) {
-            uriSchema.path = unparsedUri.substring(0, unparsedUri.indexOf('?'));
-            // ignore the '?'
-            var queryString = unparsedUri.substring(unparsedUri.indexOf('?') + 1);
-            var queryArray = queryString.split('&');
-            for (var index in queryArray) {
-                if (queryArray.hasOwnProperty(index)) {
-                    uriSchema.parameters.push({
-                        key: queryArray[index].split('=')[0],
-                        value: queryArray[index].split('=')[1]
-                    });
-                }
-            }
-            uriSchema.queryString = unparsedUri.substring(unparsedUri.indexOf('?'));
-        } else {
-            uriSchema.parameters = [];
-            uriSchema.path = unparsedUri;
-        }
-        return uriSchema;
     },
     queryString: function (parameters) {
         var str = "";

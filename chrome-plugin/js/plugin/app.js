@@ -20,7 +20,7 @@
                 });
 
                 attackCtrl.saveAttack = function (attack) {
-                    appspider.chrome.storage.local.save(attack, function () {
+                    appspider.chrome.storage.local.saveAttack(attack, function () {
                         console.log('Attack id: ' + attack.id + ' was saved!');
                     });
                 };
@@ -42,8 +42,17 @@
                         },
                         function (error) {
                             /* On an error response */
-                            console.error(xhr.status + ' ' + 'error status ' +
+                            console.error('Error status: ' +
                                 error.status + ' for attack id: ' + attack.id);
+                            attack.response.headers = [];
+                            attack.response.headers.push({
+                                key: 'Communication Error',
+                                value: 'Connection refused'
+                            });
+                            attack.response.content = '';
+                            appspider.chrome.storage.local.saveAttack(attack, function(){
+                                console.log('Attack id: ' + attack.id + ' saved!');
+                            });
                         });
                 };
                 attackCtrl.updateAttack = function(attack, attribute, value) {
@@ -72,7 +81,7 @@
                     appspider.chrome.storage.local.saveAttack(attack, function() {
                         console.log('Attack ' + attack.id + ' saved!!');
                     });
-                }
+                };
             },
             button: function () {
                 var buttonCtrl = this;
@@ -146,7 +155,7 @@
                     cookieCtrl.save = function (cookies) {
                         cookieCtrl.attack.request.cookie = cookies;
                         appspider.chrome.storage.local.saveAttack(cookieCtrl.attack, function() {
-                            console.log('Attack ' + attack.id + ' saved!!');
+                            console.log('Attack ' + cookieCtrl.attack.id + ' saved!!');
                         });
                         $uibModalInstance.dismiss();
                     };
@@ -246,9 +255,45 @@
                     }
                 };
             },
+            attackURL: function() {
+              return {
+                  restrict: 'A',
+                  link: function(scope, element, attr, ngModelController) {
+                      element.bind('blur', function() {
+                          if(element.context.value) {
+                              var request = scope.attack.request;
+                              var parser = document.createElement('a');
+                              parser.href = element.context.value;
+                              request.uri.protocol = parser.protocol.slice(0,-1);
+                              request.uri.url = parser.host;
+                              request.uri.path = parser.pathname;
+                              request.uri.queryString = parser.search;
+                              request.uri.parameters = appspider.util.parseQueryString(parser.search);
+                              scope.attack.request = request;
+                          } else {
+                              console.error('Invalid url string');
+                              alert('Invalid Attack URL string');
+                          }
+                      });
+
+                  }
+              }
+            },
             monitor: {
                 attack: {
                     request: {
+                        uri: {
+                            protocol: function() {
+                                return {
+                                    require: 'ngModel',
+                                    link: function(scope, element, attr, ngModelController) {
+                                        scope.$watch('attack.request.uri.protocol', function(protocol) {
+                                            console.log(protocol);
+                                        });
+                                    }
+                                }
+                            }
+                        },
                         payload: function () {
                             return {
                                 require: 'ngModel',
@@ -287,4 +332,5 @@
     appSpiderValidateApp.directive('monitorContent', [AppSpider.directive.monitor.attack.response.content]);
     appSpiderValidateApp.directive('attackRequestJson', [AppSpider.directive.attackRequestJSON]);
     appSpiderValidateApp.directive('attackResponseJson', [AppSpider.directive.attackResponseJSON]);
+    appSpiderValidateApp.directive('attackUrl', [AppSpider.directive.attackURL]);
 })();

@@ -102,8 +102,8 @@
                                                 </li>
                                             </ul>
                                         </div> <!-- input-group-btn -->
-                                        <input type="text" class="form-control" aria-label="Attack url"
-                                            value="{{attack.request.uri.protocol}}://{{attack.request.uri.url}}{{attack.request.uri.path}}{{attack.request.uri.queryString}}"/>
+                                        <input id="attack-url-{{id}}" type="text" class="form-control" aria-label="Attack url" attack-url
+                                               value="{{attack.request.uri.protocol}}://{{attack.request.uri.url}}{{attack.request.uri.path}}{{attack.request.uri.queryString}}"/>
                                         <div class="input-group-btn" ng-controller="ParameterModalController as paramCtrl">
                                             <button class="btn btn-default appspider-btn" aria-haspopup="true"
                                                     aria-expanded="false" ng-click="paramCtrl.open(id, 'lg', attack)">
@@ -133,7 +133,7 @@
                                                 <div class="btn-group">
                                                     <label>Protocol: </label>
                                                     <button data-toggle="dropdown"
-                                                            class="btn btn-default dropdown-toggle appspider-btn">
+                                                            class="btn btn-default dropdown-toggle appspider-btn" ng-model="attack.request.uri.protocol">
                                                         {{attack.request.uri.protocol | uppercase}} <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
