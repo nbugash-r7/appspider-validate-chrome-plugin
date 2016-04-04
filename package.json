@@ -4,14 +4,13 @@
   "description": "Chrome plugin used to enable the validate button in AppSpider reports.",
   "main": "server/server.js",
   "scripts": {
-    "test": "protractor test.js",
-    "debug test": "protractor debug test.js",
-    "start": "node server/server.js",
+    "bower update": "bower update",
     "update": "npm update",
     "initialize": "node init.js",
-    "bower update": "bower update",
+    "start node server": "node server/server.js",
     "start selenium server": "webdriver-manager start",
-    "start integration testing": "npm run-script start & npm run-script \"start selenium server\" & npm run-script test"
+    "start testing": "protractor test.js",
+    "start testing in debug": "protractor debug test.js"
   },
   "repository": {
     "type": "git",
@@ -33,7 +32,8 @@
     "angular-ui-bootstrap": "^1.2.4",
     "bower": "*",
     "express": "*",
-    "prompt": "*"
+    "prompt": "*",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

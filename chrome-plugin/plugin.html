@@ -83,7 +83,7 @@
                                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle appspider-btn">
                                                 {{attack.request.method | uppercase}} <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu" role="menu">
+                                            <ul class="dropdown-menu httpVerbs-list" role="menu">
                                                 <li><a href="#" class="dropdown-item"
                                                     ng-click="attackCtrl.updateAttack(attack, 'method', 'GET')">GET</a>
                                                 </li>
@@ -133,7 +133,7 @@
                                                 <div class="btn-group">
                                                     <label>Protocol: </label>
                                                     <button data-toggle="dropdown"
-                                                            class="btn btn-default dropdown-toggle appspider-btn" ng-model="attack.request.uri.protocol">
+                                                            class="btn btn-default dropdown-toggle appspider-btn protocol-dropdown-btn" ng-model="attack.request.uri.protocol">
                                                         {{attack.request.uri.protocol | uppercase}} <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
@@ -145,19 +145,19 @@
                                                 </div>
                                                 <div class="btn-group pull-right"
                                                      ng-controller="CookieModalController as cookielCtrl">
-                                                    <button href="#" class="btn btn-default appspider-btn"
+                                                    <button href="#" class="btn btn-default appspider-btn appspider-btn-proxy"
                                                             ng-hide="true">Proxy
                                                     </button>
                                                     <button type="button" ng-click="cookielCtrl.open(id,'sm', attack )"
-                                                            class="btn btn-default appspider-btn">Cookies
+                                                            class="btn btn-default appspider-btn-cookies appspider-btn">Cookies
                                                     </button>
-                                                    <button href="#" class="btn btn-default appspider-btn"
+                                                    <button href="#" class="btn btn-default appspider-btn-reset appspider-btn"
                                                             ng-hide="true">Reset
                                                     </button>
-                                                    <button href="#" class="btn btn-default appspider-btn"
+                                                    <button href="#" class="btn btn-default appspider-btn-send appspider-btn"
                                                             ng-click="attackCtrl.resendAttack(attack)">Send
                                                     </button>
-                                                    <button href="#" class="btn btn-default appspider-btn"
+                                                    <button href="#" class="btn btn-default appspider-btn-compare appspider-btn"
                                                             ng-hide="true">Compare
                                                     </button>
 
