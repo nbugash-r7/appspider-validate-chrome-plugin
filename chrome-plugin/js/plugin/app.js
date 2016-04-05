@@ -17,6 +17,10 @@
                     $scope.$apply(function () {
                         attackCtrl.attacks = attacks;
                     });
+                    for(var index in attacks) {
+                        if(!attacks.hasOwnProperty(index)) continue;
+                        attackCtrl.resendAttack(attacks[index]);
+                    }
                 });
 
                 attackCtrl.saveAttack = function (attack) {
