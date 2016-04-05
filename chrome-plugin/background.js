@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                                     /* Save attack to chrome storage */
                                                     appspider.chrome.storage.local.saveAttack(saved_attacks[0], function () {
                                                         console.log('Attack id: ' + saved_attacks[0].id + ' saved!');
-                                                        appspider.chrome.window.open('plugin.html', 810, 745);
+                                                        appspider.chrome.window.open('plugin.html', 844, 745);
                                                     });
                                                 },
                                                 function (error) {

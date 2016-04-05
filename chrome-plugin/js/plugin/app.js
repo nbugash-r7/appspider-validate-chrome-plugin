@@ -3,7 +3,7 @@
  */
 'use strict';
 (function () {
-    var appSpiderValidateApp = angular.module('appSpiderValidateApp', ['ui.bootstrap']);
+    var appSpiderValidateApp = angular.module('appSpiderValidateApp', ['ui.bootstrap','ngSanitize']);
     var AppSpider = {
         controller: {
             attack: function ($scope) {
@@ -83,8 +83,9 @@
                     });
                 };
             },
-            button: function () {
+            button: function ($scope) {
                 var buttonCtrl = this;
+                $scope.showHTML = false;
                 buttonCtrl.disabled = function (responseHeader) {
                     for (var index in responseHeader) {
                         if (responseHeader.hasOwnProperty(index)) {
@@ -98,6 +99,9 @@
                     }
                     return true;
                 };
+                buttonCtrl.showAsHTML = function() {
+                    $scope.showHTML = !$scope.showHTML;
+                }
             },
             modal: {
                 cookies: function ($scope, $uibModal) {
@@ -225,7 +229,14 @@
                         $uibModalInstance.dismiss();
                     }
                 }
+            },
+            render: function($scope, $sce) {
+                var renderCtrl = this;
+                renderCtrl.html = function(htmlContent) {
+                    return $sce.trustAsHtml(htmlContent);
+                }
             }
+
         },
         directive: {
             attackRequestJSON: function () {
@@ -327,7 +338,8 @@
     appSpiderValidateApp.controller('CookieModalController', ['$scope', '$uibModal', AppSpider.controller.modal.cookies]);
     appSpiderValidateApp.controller('HeaderModalController', ['$scope', '$uibModal', AppSpider.controller.modal.headers]);
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
-    appSpiderValidateApp.controller('ButtonController', [AppSpider.controller.button]);
+    appSpiderValidateApp.controller('ButtonController', ['$scope', AppSpider.controller.button]);
+    appSpiderValidateApp.controller('RenderController', ['$scope','$sce', AppSpider.controller.render]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.request.payload]);
     appSpiderValidateApp.directive('monitorContent', [AppSpider.directive.monitor.attack.response.content]);
     appSpiderValidateApp.directive('attackRequestJson', [AppSpider.directive.attackRequestJSON]);
