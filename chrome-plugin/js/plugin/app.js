@@ -86,6 +86,7 @@
             button: function ($scope) {
                 var buttonCtrl = this;
                 $scope.showHTML = false;
+                $scope.renderAs = 'html';
                 buttonCtrl.disabled = function (responseHeader) {
                     for (var index in responseHeader) {
                         if (responseHeader.hasOwnProperty(index)) {
@@ -101,6 +102,11 @@
                 };
                 buttonCtrl.showAsHTML = function() {
                     $scope.showHTML = !$scope.showHTML;
+                    if ($scope.renderAs === 'html') {
+                        $scope.renderAs = 'string';
+                    } else {
+                        $scope.renderAs = 'html';
+                    }
                 }
             },
             modal: {
