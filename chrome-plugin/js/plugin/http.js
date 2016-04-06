@@ -119,7 +119,7 @@ appspider.http = {
      response header, and response content */
     splitRequest: function (request) {
         if (_.size(request) !== 0) {
-            var array = request.split(/(A#B#C#D#E#F#G#H#)/);
+            var array = request.split(/(#A#B#C#D#E#F#G#H#)/);
             var header_payload = array[0];
             return {
                 unParsedHeaders: header_payload.split('\r\n\r\n')[0].trim(),
