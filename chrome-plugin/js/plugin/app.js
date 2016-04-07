@@ -86,6 +86,15 @@
                         console.log('Attack ' + attack.id + ' saved!!');
                     });
                 };
+                attackCtrl.encodedHTML = function(htmlString) {
+                    /*
+                    * 1. encode htmlstring
+                    * 2. inject <mark> tag
+                    * 3. decode html string
+                    * */
+                    htmlString = decodeURI(encodeURI(htmlString));
+                    return appspider.util.highlightText(htmlString,'head');
+                }
             },
             button: function ($scope) {
                 var buttonCtrl = this;
@@ -341,6 +350,24 @@
                         }
                     }
                 }
+            },
+            highlight: {
+                response: {
+                    content: function() {
+                        return {
+                            restrict: 'A',
+                            link: function(scope, element, attr, ngModelController) {
+                                element.bind('click', function() {
+                                    (function(){
+                                        /*TODO: highlighting */
+                                        var myHilitor = new Hilitor('appspider-content-section-html-highlighted-'+scope.id);
+                                        myHilitor.apply('filter x76kn6u3');
+                                    })();
+                                });
+                            }
+                        }
+                    }
+                }
             }
         }
     };
@@ -355,4 +382,5 @@
     appSpiderValidateApp.directive('attackRequestJson', [AppSpider.directive.attackRequestJSON]);
     appSpiderValidateApp.directive('attackResponseJson', [AppSpider.directive.attackResponseJSON]);
     appSpiderValidateApp.directive('attackUrl', [AppSpider.directive.attackURL]);
+    appSpiderValidateApp.directive('highlightResponseContent', [AppSpider.directive.highlight.response.content]);
 })();

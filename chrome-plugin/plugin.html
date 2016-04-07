@@ -28,17 +28,18 @@
     <!-- endcomponents -->
 
     <!-- inject:js -->
-    <script src="js/plugin/animation.js"></script>
-    <script src="js/plugin/app.js"></script>
-    <script src="js/plugin/chrome.js"></script>
-    <script src="js/plugin/events.js"></script>
-    <script src="js/plugin/http.js"></script>
-    <script src="js/plugin/schema.js"></script>
-    <script src="js/plugin/util.js"></script>
+    <script src="/js/plugin/hilitor.js"></script>
+    <script src="/js/plugin/animation.js"></script>
+    <script src="/js/plugin/app.js"></script>
+    <script src="/js/plugin/chrome.js"></script>
+    <script src="/js/plugin/events.js"></script>
+    <script src="/js/plugin/http.js"></script>
+    <script src="/js/plugin/schema.js"></script>
+    <script src="/js/plugin/util.js"></script>
     <!-- endinject -->
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="css/plugin/plugin.css">
+    <link rel="stylesheet" href="/css/plugin/plugin.css">
     <!-- endinject -->
 
     <link rel="import" href="modal/cookies.html">
@@ -182,11 +183,14 @@
                                 <div class="appspider-content-section-html" ng-show="showHTML" ng-controller="RenderController as renderCtrl">
                                     <div ng-bind-html="renderCtrl.html(attack.response.content)"></div>
                                 </div>
+                                <div class="appspider-content-section-html-highlighted" id="appspider-content-section-html-highlighted-{{id}}">
+                                    <p>{{attackCtrl.encodedHTML(attack.response.content)}}</p>
+                                </div>
                                 <div class="appspider-btn-controls">
                                     <div class="input-group">
                                         <div class="input-group-btn">
                                             <div class="btn-group">
-                                                <button class="btn btn-default appspider-btn disabled">Highlight
+                                                <button class="btn btn-default appspider-btn" highlight-response-content>Highlight
                                                     vulnerabilities
                                                 </button>
                                                 <button class="btn btn-default appspider-btn" ng-click="buttonCtrl.showAsHTML()"

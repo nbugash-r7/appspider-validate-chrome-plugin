@@ -155,5 +155,13 @@ appspider.util = {
             }
             return str.substring(0, str.length - 1);
         }
+    },
+    highlightText: function(htmlString, searchText) {
+        var stringArray = htmlString.split(searchText);
+        var highlightedHTML = '';
+        for (var index in stringArray) {
+            highlightedHTML += stringArray[index].slice(0,-1).trim() + '<mark><'+ searchText + '></mark>';
+        }
+        return highlightedHTML;
     }
 };

@@ -29,5 +29,10 @@
     "unlimitedStorage",
     "tabs",
     "activeTab"
-  ]
+  ],
+  "icons": {
+    "16":"img/icon.png",
+    "48":"img/icon.png",
+    "128":"img/icon.png"
+  }
 }
