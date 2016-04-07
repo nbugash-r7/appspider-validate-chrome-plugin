@@ -1,0 +1,18 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="highlightCtrl.close()" aria-hidden="true">×</button>
+    <h3>HTML Response</h3>
+</div>
+<div class="modal-body">
+    <pre>
+        <code id="highlight-html-{{highlightCtrl.id}}">{{highlightCtrl.content}}</code>
+    </pre>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary appspider-btn" ng-click="highlightCtrl.showHighlight()">
+        {{btnHighlight}}
+    </button>
+    <button class="btn btn-primary appspider-btn"
+    ng-click="highlightCtrl.close()">Close</button>
+</div>
+<!-- End Modal -->

@@ -99,7 +99,9 @@
             button: function ($scope) {
                 var buttonCtrl = this;
                 $scope.showHTML = false;
+                $scope.showHighlights = false;
                 $scope.renderAs = 'html';
+                $scope.btnHighlight = 'Highlight vulnerabilities';
                 buttonCtrl.disabled = function (responseHeader) {
                     for (var index in responseHeader) {
                         if (responseHeader.hasOwnProperty(index)) {
@@ -120,7 +122,27 @@
                     } else {
                         $scope.renderAs = 'html';
                     }
-                }
+                };
+                buttonCtrl.highlightHTML = function() {
+                    var highlightedSection = new Hilitor('appspider-content-section-html-highlight-'+$scope.id);
+                    $scope.showHighlights = !$scope.showHighlights;
+                    if ($scope.showHighlights) {
+                        switch($scope.attack.request.method.toUpperCase()) {
+                            case 'GET':
+                                highlightedSection.apply($scope.attack.uri.queryString);
+                                break;
+                            case 'POST':
+                                highlightedSection.apply($scope.attack.request.payload);
+                                break;
+                            default:
+                                highlightedSection.apply();
+                                break;
+                        }
+                    } else {
+                        highlightedSection.remove();
+                    }
+
+                };
             },
             modal: {
                 cookies: function ($scope, $uibModal) {
@@ -164,6 +186,21 @@
                             templateUrl: 'modal/parameters.html',
                             controller: AppSpider.controller.modalInstance.parameters,
                             controllerAs: 'paramCtrl',
+                            size: size
+                        });
+                    }
+                },
+                highlightedHTML: function($scope, $uibModal) {
+                    var highlightModal = this;
+                    highlightModal.open = function(id, size, attack) {
+                        $scope.id = id;
+                        $scope.attack = attack;
+                        var modalInstance = $uibModal.open({
+                            scope: $scope,
+                            animation: true,
+                            templateUrl: 'modal/highlight.html',
+                            controller: AppSpider.controller.modalInstance.highlightedHTML,
+                            controllerAs: 'highlightCtrl',
                             size: size
                         });
                     }
@@ -246,6 +283,51 @@
                             console.log('Attack ' + paramCtrl.attack.id + ' saved!!');
                         });
                         $uibModalInstance.dismiss();
+                    }
+                },
+                highlightedHTML: function($scope, $uibModalInstance) {
+                    var highlightCtrl = this;
+                    highlightCtrl.id = $scope.id;
+                    highlightCtrl.attack = $scope.attack;
+                    highlightCtrl.content = highlightCtrl.attack.response.content;
+                    highlightCtrl.close = function() {
+                        $uibModalInstance.dismiss();
+                    };
+                    highlightCtrl.showHighlight = function() {
+                        $scope.btnHighlight = 'Highlight Vulnerabilities';
+                        var highlightedSection = new Hilitor('highlight-html-'+$scope.id);
+                        switch($scope.attack.request.method.toUpperCase()) {
+                            case 'GET':
+                                highlightedSection.apply($scope.attack.uri.queryString);
+                                break;
+                            case 'POST':
+                                highlightedSection.apply($scope.attack.request.payload);
+                                break;
+                            default:
+                                highlightedSection.apply();
+                                console.error('Unable to highlight');
+                                break;
+                        }
+
+                        $scope.showHighlights = !$scope.showHighlights;
+                        if ($scope.showHighlights) {
+                            $scope.btnHighlight = 'Hide highlighted Vulnerabilities';
+                            switch($scope.attack.request.method.toUpperCase()) {
+                                case 'GET':
+                                    highlightedSection.apply($scope.attack.uri.queryString);
+                                    break;
+                                case 'POST':
+                                    highlightedSection.apply($scope.attack.request.payload);
+                                    break;
+                                default:
+                                    highlightedSection.apply();
+                                    break;
+                            }
+                        } else {
+                            $scope.btnHighlight = 'Highlight Vulnerabilities';
+                            highlightedSection.remove();
+                        }
+
                     }
                 }
             },
@@ -350,24 +432,6 @@
                         }
                     }
                 }
-            },
-            highlight: {
-                response: {
-                    content: function() {
-                        return {
-                            restrict: 'A',
-                            link: function(scope, element, attr, ngModelController) {
-                                element.bind('click', function() {
-                                    (function(){
-                                        /*TODO: highlighting */
-                                        var myHilitor = new Hilitor('appspider-content-section-html-highlighted-'+scope.id);
-                                        myHilitor.apply('filter x76kn6u3');
-                                    })();
-                                });
-                            }
-                        }
-                    }
-                }
             }
         }
     };
@@ -375,6 +439,7 @@
     appSpiderValidateApp.controller('CookieModalController', ['$scope', '$uibModal', AppSpider.controller.modal.cookies]);
     appSpiderValidateApp.controller('HeaderModalController', ['$scope', '$uibModal', AppSpider.controller.modal.headers]);
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
+    appSpiderValidateApp.controller('HighlightedHTMLController', ['$scope', '$uibModal', AppSpider.controller.modal.highlightedHTML]);
     appSpiderValidateApp.controller('ButtonController', ['$scope', AppSpider.controller.button]);
     appSpiderValidateApp.controller('RenderController', ['$scope','$sce', AppSpider.controller.render]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.request.payload]);
@@ -382,5 +447,4 @@
     appSpiderValidateApp.directive('attackRequestJson', [AppSpider.directive.attackRequestJSON]);
     appSpiderValidateApp.directive('attackResponseJson', [AppSpider.directive.attackResponseJSON]);
     appSpiderValidateApp.directive('attackUrl', [AppSpider.directive.attackURL]);
-    appSpiderValidateApp.directive('highlightResponseContent', [AppSpider.directive.highlight.response.content]);
 })();

@@ -91,3 +91,10 @@ div.modal-content {
 div.input-group.attack-url {
     margin-bottom: 10px;
 }
+
+pre {
+    max-height: 310px;
+}
+div.modal-content.hightlighted-html {
+    max-height: 500px;
+}
