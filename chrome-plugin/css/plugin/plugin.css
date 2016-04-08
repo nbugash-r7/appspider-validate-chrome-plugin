@@ -76,6 +76,11 @@ div.appspider-content-section {
     padding-top: 10px;
 }
 
+div.appspider-content-section > textarea {
+    white-space: pre;
+    tab-size: 2;
+}
+
 /* Cookie Modal */
 input.cookie {
     height: 25px;
@@ -97,4 +102,9 @@ pre {
 }
 div.modal-content.hightlighted-html {
     max-height: 500px;
+}
+
+pre code {
+    white-space: pre;
+    tab-size: 2;
 }

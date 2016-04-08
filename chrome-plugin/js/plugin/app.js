@@ -204,6 +204,22 @@
                             size: size
                         });
                     }
+                },
+                showHTML: function($scope, $uibModal) {
+                    var renderAsHTML = this;
+                    renderAsHTML.open = function(id, size, attack) {
+                        $scope.id = id;
+                        $scope.attack = attack;
+                        $scope.content = attack.response.content;
+                        var modalInstance = $uibModal.open({
+                            scope: $scope,
+                            animation: true,
+                            templateUrl: 'modal/contentHTML.html',
+                            controller: AppSpider.controller.modalInstance.contentHTML,
+                            controllerAs: 'contentHTMLCtrl',
+                            size: size
+                        });
+                    }
                 }
             },
             modalInstance: {
@@ -214,7 +230,7 @@
                     cookieCtrl.cookies = cookieCtrl.attack.request.cookie;
                     cookieCtrl.save = function (cookies) {
                         cookieCtrl.attack.request.cookie = cookies;
-                        appspider.chrome.storage.local.saveAttack(cookieCtrl.attack, function() {
+                        appspider.chrome.storage.local.saveAttack(cookieCtrl.attack, function () {
                             console.log('Attack ' + cookieCtrl.attack.id + ' saved!!');
                         });
                         $uibModalInstance.dismiss();
@@ -238,86 +254,73 @@
                     headerCtrl.id = $scope.id;
                     headerCtrl.attack = $scope.attack;
                     headerCtrl.headers = headerCtrl.attack.request.headers;
-                    headerCtrl.saveHeaders = function(headers) {
+                    headerCtrl.saveHeaders = function (headers) {
                         headerCtrl.attack.request.headers = headers;
-                        appspider.chrome.storage.local.saveAttack(headerCtrl.attack, function(){
-                           console.log('Attack ' + headerCtrl.attack.id + ' saved!!');
+                        appspider.chrome.storage.local.saveAttack(headerCtrl.attack, function () {
+                            console.log('Attack ' + headerCtrl.attack.id + ' saved!!');
                         });
                         $uibModalInstance.dismiss();
                     };
-                    headerCtrl.close = function() {
+                    headerCtrl.close = function () {
                         $uibModalInstance.dismiss('close');
                     };
-                    headerCtrl.addNewHeaders = function() {
+                    headerCtrl.addNewHeaders = function () {
                         headerCtrl.headers.push({
                             key: 'Place header key here',
-                            value:'Place header value here'
+                            value: 'Place header value here'
                         });
                     };
-                    headerCtrl.removeHeaders = function(key) {
+                    headerCtrl.removeHeaders = function (key) {
                         headerCtrl.headers = _.without(headerCtrl.headers,
-                            _.findWhere(headerCtrl.headers, { key: key}));
+                            _.findWhere(headerCtrl.headers, {key: key}));
                     };
                 },
-                parameters: function($scope, $uibModalInstance) {
+                parameters: function ($scope, $uibModalInstance) {
                     var paramCtrl = this;
                     paramCtrl.attack = $scope.attack;
                     paramCtrl.parameters = paramCtrl.attack.request.uri.parameters;
-                    paramCtrl.addNewParams = function() {
+                    paramCtrl.addNewParams = function () {
                         paramCtrl.parameters.push({
                             key: 'Place new key here',
                             value: 'Place value here'
                         });
                     };
-                    paramCtrl.removeParameters = function(key) {
+                    paramCtrl.removeParameters = function (key) {
                         paramCtrl.parameters = _.without(paramCtrl.parameters,
                             _.findWhere(paramCtrl.parameters, {key: key}));
                     };
-                    paramCtrl.cancel = function() {
+                    paramCtrl.cancel = function () {
                         $uibModalInstance.dismiss('cancel');
                     };
-                    paramCtrl.saveParameters = function(params) {
+                    paramCtrl.saveParameters = function (params) {
                         paramCtrl.attack.request.uri.parameters = params;
                         paramCtrl.attack.request.uri.queryString = appspider.util.queryString(params);
-                        appspider.chrome.storage.local.saveAttack(paramCtrl.attack, function() {
+                        appspider.chrome.storage.local.saveAttack(paramCtrl.attack, function () {
                             console.log('Attack ' + paramCtrl.attack.id + ' saved!!');
                         });
                         $uibModalInstance.dismiss();
                     }
                 },
-                highlightedHTML: function($scope, $uibModalInstance) {
+                highlightedHTML: function ($scope, $uibModalInstance) {
                     var highlightCtrl = this;
                     highlightCtrl.id = $scope.id;
                     highlightCtrl.attack = $scope.attack;
                     highlightCtrl.content = highlightCtrl.attack.response.content;
-                    highlightCtrl.close = function() {
+                    highlightCtrl.close = function () {
                         $uibModalInstance.dismiss();
                     };
-                    highlightCtrl.showHighlight = function() {
+                    highlightCtrl.showHighlight = function () {
                         $scope.btnHighlight = 'Highlight Vulnerabilities';
-                        var highlightedSection = new Hilitor('highlight-html-'+$scope.id);
-                        switch($scope.attack.request.method.toUpperCase()) {
-                            case 'GET':
-                                highlightedSection.apply($scope.attack.uri.queryString);
-                                break;
-                            case 'POST':
-                                highlightedSection.apply($scope.attack.request.payload);
-                                break;
-                            default:
-                                highlightedSection.apply();
-                                console.error('Unable to highlight');
-                                break;
-                        }
-
+                        var highlightedSection = new Hilitor('highlight-html-' + $scope.id);
                         $scope.showHighlights = !$scope.showHighlights;
                         if ($scope.showHighlights) {
                             $scope.btnHighlight = 'Hide highlighted Vulnerabilities';
-                            switch($scope.attack.request.method.toUpperCase()) {
+                            switch ($scope.attack.request.method.toUpperCase()) {
                                 case 'GET':
-                                    highlightedSection.apply($scope.attack.uri.queryString);
+                                    highlightedSection.apply("GET " + $scope.attack.uri.queryString);
                                     break;
                                 case 'POST':
-                                    highlightedSection.apply($scope.attack.request.payload);
+                                    highlightedSection.apply("POST " + $scope.attack.request.payload);
                                     break;
                                 default:
                                     highlightedSection.apply();
@@ -329,6 +332,15 @@
                         }
 
                     }
+                },
+                contentHTML: function ($scope, $uibModalInstance) {
+                    var contentHTMLCtrl = this;
+                    contentHTMLCtrl.id = $scope.id;
+                    contentHTMLCtrl.attack = $scope.attack;
+                    contentHTMLCtrl.content = contentHTMLCtrl.attack.response.content;
+                    contentHTMLCtrl.close = function () {
+                        $uibModalInstance.dismiss();
+                    };
                 }
             },
             render: function($scope, $sce) {
@@ -439,7 +451,8 @@
     appSpiderValidateApp.controller('CookieModalController', ['$scope', '$uibModal', AppSpider.controller.modal.cookies]);
     appSpiderValidateApp.controller('HeaderModalController', ['$scope', '$uibModal', AppSpider.controller.modal.headers]);
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
-    appSpiderValidateApp.controller('HighlightedHTMLController', ['$scope', '$uibModal', AppSpider.controller.modal.highlightedHTML]);
+    appSpiderValidateApp.controller('HighlightedHTMLModalController', ['$scope', '$uibModal', AppSpider.controller.modal.highlightedHTML]);
+    appSpiderValidateApp.controller('ShowHTMLModalController', ['$scope', '$uibModal', AppSpider.controller.modal.showHTML]);
     appSpiderValidateApp.controller('ButtonController', ['$scope', AppSpider.controller.button]);
     appSpiderValidateApp.controller('RenderController', ['$scope','$sce', AppSpider.controller.render]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.request.payload]);

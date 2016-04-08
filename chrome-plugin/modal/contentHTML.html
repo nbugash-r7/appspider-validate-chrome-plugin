@@ -1,0 +1,14 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" aria-hidden="true"
+            ng-click="contentHTMLCtrl.close()">×</button>
+    <h3>HTML Response</h3>
+</div>
+<div class="modal-body">
+    <div ng-bind-html="contentHTMLCtrl.content"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary appspider-btn"
+    ng-click="contentHTMLCtrl.close()">Close</button>
+</div>
+<!-- End Modal -->

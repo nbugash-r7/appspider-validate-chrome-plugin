@@ -174,7 +174,7 @@
                                                   ng-model="attack.response.headers" id="appspider-response-header-{{id}}">
                                         </textarea>
                                     </div>
-                                <div class="appspider-content-section" ng-hide="showHTML" ng-controller="HighlightedHTMLController as highlightCtrl">
+                                <div class="appspider-content-section" ng-hide="showHTML" ng-controller="HighlightedHTMLModalController as highlightCtrl">
                                         <textarea title="appspider-response-content" name="appspider-response-content" wrap="soft"
                                                   class="form-control" cols="30" rows="10" ng-model="attack.response.content"
                                                   id="appspider-response-content-{{id}}" readonly
@@ -185,13 +185,10 @@
                                      ng-controller="RenderController as renderCtrl">
                                     <div ng-bind-html="renderCtrl.html(attack.response.content)"></div>
                                 </div>
-                                <div id="appspider-content-section-html-highlight-{{attack.id}}" ng-hide="true">
-                                    {{attack.response.content}}
-                                </div>
                                 <div class="appspider-btn-controls">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <div class="btn-group">
+                                            <div class="btn-group" ng-controller="ShowHTMLModalController as showHTMLCtrl">
                                                 <button class="btn btn-default appspider-btn" ng-click="buttonCtrl.showAsHTML()"
                                                         ng-class="{disabled: buttonCtrl.disabled(attack.response.headers)}">
                                                     Render as {{renderAs}}
