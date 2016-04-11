@@ -204,22 +204,6 @@
                             size: size
                         });
                     }
-                },
-                showHTML: function($scope, $uibModal) {
-                    var renderAsHTML = this;
-                    renderAsHTML.open = function(id, size, attack) {
-                        $scope.id = id;
-                        $scope.attack = attack;
-                        $scope.content = attack.response.content;
-                        var modalInstance = $uibModal.open({
-                            scope: $scope,
-                            animation: true,
-                            templateUrl: 'modal/contentHTML.html',
-                            controller: AppSpider.controller.modalInstance.contentHTML,
-                            controllerAs: 'contentHTMLCtrl',
-                            size: size
-                        });
-                    }
                 }
             },
             modalInstance: {
@@ -332,15 +316,6 @@
                         }
 
                     }
-                },
-                contentHTML: function ($scope, $uibModalInstance) {
-                    var contentHTMLCtrl = this;
-                    contentHTMLCtrl.id = $scope.id;
-                    contentHTMLCtrl.attack = $scope.attack;
-                    contentHTMLCtrl.content = contentHTMLCtrl.attack.response.content;
-                    contentHTMLCtrl.close = function () {
-                        $uibModalInstance.dismiss();
-                    };
                 }
             },
             render: function($scope, $sce) {
@@ -452,7 +427,6 @@
     appSpiderValidateApp.controller('HeaderModalController', ['$scope', '$uibModal', AppSpider.controller.modal.headers]);
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
     appSpiderValidateApp.controller('HighlightedHTMLModalController', ['$scope', '$uibModal', AppSpider.controller.modal.highlightedHTML]);
-    appSpiderValidateApp.controller('ShowHTMLModalController', ['$scope', '$uibModal', AppSpider.controller.modal.showHTML]);
     appSpiderValidateApp.controller('ButtonController', ['$scope', AppSpider.controller.button]);
     appSpiderValidateApp.controller('RenderController', ['$scope','$sce', AppSpider.controller.render]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.request.payload]);

@@ -82,6 +82,7 @@ bower.json.sample
 chrome-plugin/manifest.json.sample
 !server/views/.keep
 server/views/
+!server/views/js
 ### OSX template
 .DS_Store
 .AppleDouble
