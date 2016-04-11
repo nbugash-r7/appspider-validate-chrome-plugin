@@ -82,9 +82,6 @@ div.appspider-content-section > textarea {
 }
 
 /* Cookie Modal */
-input.cookie {
-    height: 25px;
-}
 
 div.modal-content {
     max-width: 650px;
