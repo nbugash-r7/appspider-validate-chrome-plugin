@@ -4,7 +4,11 @@ appspider.schema = {
             request: appspider.schema.request(),
             description: '',
             response: appspider.schema.response(),
-            id: ''
+            id: '',
+            proxy: {
+                host: '',
+                port: ''
+            }
         };
     },
     request: function() {

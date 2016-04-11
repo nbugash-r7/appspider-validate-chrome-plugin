@@ -204,6 +204,21 @@
                             size: size
                         });
                     }
+                },
+                proxy: function($scope, $uibModal) {
+                    var proxyModal = this;
+                    proxyModal.open = function(id, size, attack) {
+                        $scope.id = id;
+                        $scope.attack = attack;
+                        var modalInstance = $uibModal.open({
+                            scope: $scope,
+                            animation: true,
+                            templateUrl: 'modal/proxy.html',
+                            controller: AppSpider.controller.modalInstance.proxy,
+                            controllerAs: 'proxyCtrl',
+                            size: size
+                        })
+                    }
                 }
             },
             modalInstance: {
@@ -316,6 +331,26 @@
                         }
 
                     }
+                },
+                proxy: function($scope, $uibModalInstance) {
+                    var proxyCtrl = this;
+                    proxyCtrl.attack = $scope.attack;
+                    proxyCtrl.proxy = proxyCtrl.attack.proxy;
+                    proxyCtrl.saveProxy = function(host, port) {
+                        proxyCtrl.attack.proxy.host = host;
+                        proxyCtrl.attack.proxy.port = port;
+                        appspider.chrome.storage.local.saveAttack(proxyCtrl.attack, function() {
+                            console.log('Attack ' + proxyCtrl.attack.id + ' saved!!');
+                        });
+                        $uibModalInstance.dismiss('Close');
+                    };
+                    proxyCtrl.close = function() {
+                        $uibModalInstance.dismiss('Close');
+                    };
+                    proxyCtrl.clearProxy = function() {
+                        proxyCtrl.proxy.host = '';
+                        proxyCtrl.proxy.port = ''
+                    }
                 }
             },
             render: function($scope, $sce) {
@@ -427,6 +462,7 @@
     appSpiderValidateApp.controller('HeaderModalController', ['$scope', '$uibModal', AppSpider.controller.modal.headers]);
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
     appSpiderValidateApp.controller('HighlightedHTMLModalController', ['$scope', '$uibModal', AppSpider.controller.modal.highlightedHTML]);
+    appSpiderValidateApp.controller('ProxyModalController', ['$scope', '$uibModal', AppSpider.controller.modal.proxy]);
     appSpiderValidateApp.controller('ButtonController', ['$scope', AppSpider.controller.button]);
     appSpiderValidateApp.controller('RenderController', ['$scope','$sce', AppSpider.controller.render]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.request.payload]);

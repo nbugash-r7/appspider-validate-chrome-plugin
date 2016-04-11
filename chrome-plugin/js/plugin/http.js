@@ -33,11 +33,21 @@ appspider.http = {
             console.log('Sending attack id: ' + attack.id + ' via XMLHTTPRequest');
 
             var xhr = new XMLHttpRequest();
-            xhr.open(
-                attack.request.method,
-                attack.request.uri.protocol + '://' + attack.request.uri.url + attack.request.uri.path + attack.request.uri.queryString,
-                true
-            );
+            if (attack.proxy.host.trim() !== '' && attack.proxy.port.trim() !== '') {
+                console.log('******Using proxy**********');
+                xhr.open(
+                    attack.request.method,
+                    attack.request.uri.protocol + '://' + attack.proxy.host + ":" + attack.proxy.port + attack.request.uri.path + attack.request.uri.queryString,
+                    true
+                )
+            } else {
+                xhr.open(
+                    attack.request.method,
+                    attack.request.uri.protocol + '://' + attack.request.uri.url + attack.request.uri.path + attack.request.uri.queryString,
+                    true
+                );
+            }
+
             console.log('Customizing http request headers for attack id: ' + attack.id);
             var headers = appspider.http.modifyHeaders(attack.request.headers);
             headers[appspider.chrome.global.TOKEN + 'cookie'] = appspider.util.stringifyCookies(attack.request.cookie);

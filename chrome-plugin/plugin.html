@@ -144,12 +144,13 @@
                                                                ng-click="attackCtrl.updateAttack(attack,'protocol','https')">HTTPS</a></li>
                                                     </ul>
                                                 </div>
-                                                <div class="btn-group pull-right"
-                                                     ng-controller="CookieModalController as cookielCtrl">
-                                                    <button href="#" class="btn btn-default appspider-btn appspider-btn-proxy"
-                                                            ng-hide="true">Proxy
+                                                <div class="btn-group pull-right">
+                                                    <button href="#" ng-controller="ProxyModalController as proxyCtrl"
+                                                            ng-click="proxyCtrl.open(id, 'sm', attack)"
+                                                            class="btn btn-default appspider-btn appspider-btn-proxy">Proxy
                                                     </button>
-                                                    <button type="button" ng-click="cookielCtrl.open(id,'sm', attack )"
+                                                    <button type="button" ng-controller="CookieModalController as cookielCtrl"
+                                                            ng-click="cookielCtrl.open(id,'sm', attack )"
                                                             class="btn btn-default appspider-btn-cookies appspider-btn">Cookies
                                                     </button>
                                                     <button href="#" class="btn btn-default appspider-btn-reset appspider-btn"

@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" ng-click="proxyCtrl.close()"
+            class="close" aria-hidden="true">×</button>
+    <h3>Proxy</h3>
+</div>
+<div class="modal-body">
+    <div class="input-group">
+        <input class="form-control proxy-host" ng-model="proxyCtrl.proxy.host" type="text" placeholder="Host">
+        <span class="input-group-btn"></span>
+        <input class="form-control proxy-port" ng-model="proxyCtrl.proxy.port" type="text" placeholder="Port">
+        <span class="input-group-btn"></span>
+        <span class="input-group-btn">
+                <button ng-click="proxyCtrl.clearProxy()"
+                        class="btn btn-danger appspider-btn" type="button">
+                    Clear <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-click="proxyCtrl.saveProxy(proxyCtrl.proxy.host, proxyCtrl.proxy.port)"
+            class="btn btn-primary appspider-btn">Save Proxy Settings</button>
+</div>
+<!-- End Modal -->
