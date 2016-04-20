@@ -73,11 +73,10 @@ describe('Object test:', function () {
 
   it('Dot.str Redefinition should fail', function () {
     var tgt = {
-          'already': 'set'
-        }
+      'already': 'set'
+    }
 
-        ;
-    (function () {
+    ;(function () {
       Dot.str('already.new', 'value', tgt)
     }).should.throw('Trying to redefine `already` which is a string')
   })
@@ -102,9 +101,9 @@ describe('Object test:', function () {
     var tgt = {}
 
     Dot.str(
-        'this.is.my.string',
-        '  this is a test   ',
-        tgt, [_s.trim, _s.underscored]
+      'this.is.my.string',
+      '  this is a test   ',
+      tgt, [_s.trim, _s.underscored]
     )
 
     tgt.should.eql({
@@ -135,15 +134,15 @@ describe('Object test:', function () {
   })
 
   it('should not process non dot value with modifier when override is false',
-      function () {
-        var row = {'title': 'my page', 'slug': 'My Page'}
+    function () {
+      var row = {'title': 'my page', 'slug': 'My Page'}
 
-        var mods = {'title': _s.titleize, 'slug': _s.slugify}
+      var mods = {'title': _s.titleize, 'slug': _s.slugify}
 
-        Dot.object(row, mods)
+      Dot.object(row, mods)
 
-        row.should.eql({'title': 'my page', 'slug': 'My Page'})
-      }
+      row.should.eql({'title': 'my page', 'slug': 'My Page'})
+    }
   )
 
   it('Dot.object should process multiple modifiers', function () {

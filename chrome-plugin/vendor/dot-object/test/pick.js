@@ -36,8 +36,7 @@ describe('Pick:', function () {
 
     var val = Dot.pick('some', obj)
 
-        ;
-    (val === null).should.be.true
+    ;(val === null).should.be.true
   })
 
   it('Should return undefined when picking an non-existing value', function () {
@@ -47,21 +46,19 @@ describe('Pick:', function () {
 
     var val = Dot.pick('other', obj)
 
-        ;
-    (val === undefined).should.be.true
+    ;(val === undefined).should.be.true
   })
 
   it('Should return undefined when picking an non-existing dotted value',
-      function () {
-        var obj = {
-          'some': null
-        }
-
-        var val = Dot.pick('some.other', obj)
-
-            ;
-        (val === undefined).should.be.true
+    function () {
+      var obj = {
+        'some': null
       }
+
+      var val = Dot.pick('some.other', obj)
+
+      ;(val === undefined).should.be.true
+    }
   )
 
   it("Should check down the object's prototype chain", function () {

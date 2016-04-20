@@ -94,12 +94,12 @@ if ( !support.optSelected ) {
 			}
 			return null;
 		},
-		set: function (elem) {
+		set: function( elem ) {
 			var parent = elem.parentNode;
-			if (parent) {
+			if ( parent ) {
 				parent.selectedIndex;
 
-				if (parent.parentNode) {
+				if ( parent.parentNode ) {
 					parent.parentNode.selectedIndex;
 				}
 			}

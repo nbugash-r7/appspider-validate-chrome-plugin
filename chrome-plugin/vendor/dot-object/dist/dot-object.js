@@ -1,4 +1,4 @@
-(function (global, exportName) {
+(function(global, exportName) {
     'use strict'
 
     function _process(v, mod) {
@@ -60,12 +60,12 @@
     var dotDefault = new DotObject('.', false, true)
 
     function wrap(method) {
-        return function () {
+        return function() {
             return dotDefault[method].apply(dotDefault, arguments)
         }
     }
 
-    DotObject.prototype._fill = function (a, obj, v, mod) {
+    DotObject.prototype._fill = function(a, obj, v, mod) {
         var k = a.shift()
 
         if (a.length > 0) {
@@ -115,12 +115,12 @@
      * @param {Object} obj
      * @param {Object} mods
      */
-    DotObject.prototype.object = function (obj, mods) {
+    DotObject.prototype.object = function(obj, mods) {
         var self = this
 
-        Object.keys(obj).forEach(function (k) {
+        Object.keys(obj).forEach(function(k) {
             var mod = mods === undefined ? null : mods[k]
-            // normalize array notation.
+                // normalize array notation.
             var ok = parsePath(k, self.seperator).join(self.seperator)
 
             if (ok.indexOf(self.seperator) !== -1) {
@@ -140,7 +140,7 @@
      * @param {Object} obj object to be modified
      * @param {Function|Array} mod optional modifier
      */
-    DotObject.prototype.str = function (path, v, obj, mod) {
+    DotObject.prototype.str = function(path, v, obj, mod) {
         if (path.indexOf(this.seperator) !== -1) {
             this._fill(path.split(this.seperator), obj, v, mod)
         } else if (this.override) {
@@ -160,7 +160,7 @@
      * @param {Object} obj
      * @param {Boolean} remove
      */
-    DotObject.prototype.pick = function (path, obj, remove) {
+    DotObject.prototype.pick = function(path, obj, remove) {
         var i
         var keys
         var val
@@ -193,7 +193,7 @@
             }
         }
         if (remove && Array.isArray(obj)) {
-            obj = obj.filter(function (n) {
+            obj = obj.filter(function(n) {
                 return n !== undefined
             })
         }
@@ -208,7 +208,7 @@
      * @param {Object} obj
      * @return {Mixed} The removed value
      */
-    DotObject.prototype.remove = function (path, obj) {
+    DotObject.prototype.remove = function(path, obj) {
         var i
 
         this.cleanup = []
@@ -223,7 +223,7 @@
         }
     }
 
-    DotObject.prototype._cleanup = function (obj) {
+    DotObject.prototype._cleanup = function(obj) {
         var ret
         var i
         var keys
@@ -233,7 +233,7 @@
                 keys = this.cleanup[i].split('.')
                 root = keys.splice(0, -1).join('.')
                 ret = root ? this.pick(root, obj) : obj
-                ret = ret[keys[0]].filter(function (v) {
+                ret = ret[keys[0]].filter(function(v) {
                     return v !== undefined
                 })
                 this.set(this.cleanup[i], ret, obj)
@@ -258,7 +258,7 @@
      * @param {Function|Array} mods
      * @param {Boolean} merge
      */
-    DotObject.prototype.move = function (source, target, obj, mods, merge) {
+    DotObject.prototype.move = function(source, target, obj, mods, merge) {
         if (typeof mods === 'function' || Array.isArray(mods)) {
             this.set(target, _process(this.pick(source, obj, true), mods), obj, merge)
         } else {
@@ -283,7 +283,7 @@
      * @param {Function|Array} mods
      * @param {Boolean} merge
      */
-    DotObject.prototype.transfer = function (source, target, obj1, obj2, mods, merge) {
+    DotObject.prototype.transfer = function(source, target, obj1, obj2, mods, merge) {
         if (typeof mods === 'function' || Array.isArray(mods)) {
             this.set(target,
                 _process(
@@ -312,7 +312,7 @@
      * @param {Function|Array} mods
      * @param {Boolean} merge
      */
-    DotObject.prototype.copy = function (source, target, obj1, obj2, mods, merge) {
+    DotObject.prototype.copy = function(source, target, obj1, obj2, mods, merge) {
         if (typeof mods === 'function' || Array.isArray(mods)) {
             this.set(target,
                 _process(
@@ -345,7 +345,7 @@
      * @param {Object} obj
      * @param {Boolean} merge
      */
-    DotObject.prototype.set = function (path, val, obj, merge) {
+    DotObject.prototype.set = function(path, val, obj, merge) {
         var i
         var k
         var keys
@@ -375,8 +375,8 @@
                 }
             } else if (
                 // force the value to be an object
-            !obj.hasOwnProperty(key) ||
-            (!isObject(obj[key]) && !Array.isArray(obj[key]))
+                !obj.hasOwnProperty(key) ||
+                (!isObject(obj[key]) && !Array.isArray(obj[key]))
             ) {
                 // initialize as array if next key is numeric
                 if (/^\d+$/.test(keys[i + 1])) {
@@ -414,10 +414,10 @@
      * @param {Object} obj Object to be transformed
      * @param {Array} mods modifiers for the target
      */
-    DotObject.prototype.transform = function (recipe, obj, tgt) {
+    DotObject.prototype.transform = function(recipe, obj, tgt) {
         obj = obj || {}
         tgt = tgt || {}
-        Object.keys(recipe).forEach(function (key) {
+        Object.keys(recipe).forEach(function(key) {
             this.set(recipe[key], this.pick(key, obj), tgt)
         }.bind(this))
         return tgt
@@ -440,10 +440,10 @@
      * @param {Object} tgt target object
      * @param {Array} path path array (internal)
      */
-    DotObject.prototype.dot = function (obj, tgt, path) {
+    DotObject.prototype.dot = function(obj, tgt, path) {
         tgt = tgt || {}
         path = path || []
-        Object.keys(obj).forEach(function (key) {
+        Object.keys(obj).forEach(function(key) {
             if (Object(obj[key]) === obj[key]) {
                 return this.dot(obj[key], tgt, path.concat(key))
             } else {
@@ -465,22 +465,22 @@
     DotObject.dot = wrap('dot')
 
     ;
-    ['override', 'overwrite'].forEach(function (prop) {
+    ['override', 'overwrite'].forEach(function(prop) {
         Object.defineProperty(DotObject, prop, {
-            get: function () {
+            get: function() {
                 return dotDefault.override
             },
-            set: function (val) {
+            set: function(val) {
                 dotDefault.override = !!val
             }
         })
     })
 
     Object.defineProperty(DotObject, 'useArray', {
-        get: function () {
+        get: function() {
             return dotDefault.useArray
         },
-        set: function (val) {
+        set: function(val) {
             dotDefault.useArray = val
         }
     })
@@ -489,7 +489,7 @@
 
 
     if (typeof define === 'function' && define.amd) {
-        define(function () {
+        define(function() {
             return DotObject;
         });
     } else if (typeof module != 'undefined' && module.exports) {

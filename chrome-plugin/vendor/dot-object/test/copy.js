@@ -45,7 +45,7 @@ describe('Copy:', function () {
   })
 
   it('Should process modifiers', function () {
-    function up(val) {
+    function up (val) {
       val.brand = val.brand.toUpperCase()
       return val
     }

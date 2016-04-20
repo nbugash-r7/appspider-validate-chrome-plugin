@@ -15,6 +15,7 @@
     <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="vendor/angular-sanitize/angular-sanitize.js"></script>
+    <script src="vendor/jsdiff/diff.js"></script>
     <!-- endbower -->
 
     <!-- bower:css -->
@@ -28,12 +29,13 @@
     <!-- endcomponents -->
 
     <!-- inject:js -->
-    <script src="/js/plugin/hilitor.js"></script>
     <script src="/js/plugin/animation.js"></script>
     <script src="/js/plugin/app.js"></script>
     <script src="/js/plugin/chrome.js"></script>
     <script src="/js/plugin/events.js"></script>
+    <script src="/js/plugin/hilitor.js"></script>
     <script src="/js/plugin/http.js"></script>
+    <script src="/js/plugin/jquery.highlight-5.js"></script>
     <script src="/js/plugin/schema.js"></script>
     <script src="/js/plugin/util.js"></script>
     <!-- endinject -->
@@ -159,9 +161,19 @@
                                                     <button href="#" class="btn btn-default appspider-btn-send appspider-btn"
                                                             ng-click="attackCtrl.resendAttack(attack)">Send
                                                     </button>
-                                                    <button href="#" class="btn btn-default appspider-btn-compare appspider-btn"
-                                                            ng-hide="true">Compare
+                                                    <button type="button" class="btn btn-default appspider-btn-compare appspider-btn dropdown-toggle"
+                                                            data-toggle="dropdown">COMPARE <span class="caret"></span>
                                                     </button>
+                                                    <ul class="dropdown-menu noclose" ng-controller="CompareModalController as compareCtrl">
+                                                        <li ng-repeat="(id,attack) in attackCtrl.attacks">
+                                                            <a href="#" class="small" data-value="Step_{{id}}"
+                                                               tabIndex="-1"><input ng-model="attack.markedForCompare"
+                                                                                    type="checkbox">&nbsp; Step {{id}}</a>
+                                                        </li>
+                                                        <button href="#" ng-click="compareCtrl.open('lg', attackCtrl.attacks )"
+                                                                class="btn btn-default appspider-btn appspider-btn-start-comparing">Start Comparing</button>
+                                                    </ul>
+
 
                                                 </div>
                                             </div> <!-- input-group-btn -->

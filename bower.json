@@ -31,7 +31,8 @@
     "dot-object": "^1.4.1",
     "bootstrap": "^3.3.6",
     "angular-bootstrap": "^1.2.4",
-    "angular-sanitize": "^1.5.3"
+    "angular-sanitize": "^1.5.3",
+    "jsdiff": "^2.2.2"
   },
   "overrides": {
     "dot-object": {

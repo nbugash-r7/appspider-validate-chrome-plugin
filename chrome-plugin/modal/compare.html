@@ -1,0 +1,19 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="compareCtrl.close()" aria-hidden="true">×</button>
+    <h3>Cookies</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div ng-repeat="attack in compareCtrl.markedAttacks" class="col-xs-12">
+            <label>Step {{attack.id}}</label>
+            <pre><code id="compare-header-step-{{attack.id}}">{{compareCtrl.stringifyAttackRequest(attack.request)}}</code></pre>
+            <pre><code id="compare-content-step-{{attack.id}}">{{attack.response.content}}</code></pre>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary appspider-btn" ng-click="compareCtrl.highlightDifference()">Highlight difference</button>
+    <button class="btn btn-primary appspider-btn" ng-click="compareCtrl.close()">Close</button>
+</div>
+<!-- End Modal -->

@@ -24,8 +24,8 @@
   Tab.TRANSITION_DURATION = 150
 
   Tab.prototype.show = function () {
-    var $this = this.element
-    var $ul = $this.closest('ul:not(.dropdown-menu)')
+    var $this    = this.element
+    var $ul      = $this.closest('ul:not(.dropdown-menu)')
     var selector = $this.data('target')
 
     if (!selector) {
@@ -64,23 +64,23 @@
   }
 
   Tab.prototype.activate = function (element, container, callback) {
-    var $active = container.find('> .active')
+    var $active    = container.find('> .active')
     var transition = callback
-        && $.support.transition
-        && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
+      && $.support.transition
+      && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
 
     function next() {
       $active
+        .removeClass('active')
+        .find('> .dropdown-menu > .active')
           .removeClass('active')
-          .find('> .dropdown-menu > .active')
-          .removeClass('active')
-          .end()
-          .find('[data-toggle="tab"]')
+        .end()
+        .find('[data-toggle="tab"]')
           .attr('aria-expanded', false)
 
       element
-          .addClass('active')
-          .find('[data-toggle="tab"]')
+        .addClass('active')
+        .find('[data-toggle="tab"]')
           .attr('aria-expanded', true)
 
       if (transition) {
@@ -92,10 +92,10 @@
 
       if (element.parent('.dropdown-menu').length) {
         element
-            .closest('li.dropdown')
+          .closest('li.dropdown')
             .addClass('active')
-            .end()
-            .find('[data-toggle="tab"]')
+          .end()
+          .find('[data-toggle="tab"]')
             .attr('aria-expanded', true)
       }
 
@@ -103,10 +103,10 @@
     }
 
     $active.length && transition ?
-        $active
-            .one('bsTransitionEnd', next)
-            .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
-        next()
+      $active
+        .one('bsTransitionEnd', next)
+        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
+      next()
 
     $active.removeClass('in')
   }
@@ -118,7 +118,7 @@
   function Plugin(option) {
     return this.each(function () {
       var $this = $(this)
-      var data = $this.data('bs.tab')
+      var data  = $this.data('bs.tab')
 
       if (!data) $this.data('bs.tab', (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
@@ -127,7 +127,7 @@
 
   var old = $.fn.tab
 
-  $.fn.tab = Plugin
+  $.fn.tab             = Plugin
   $.fn.tab.Constructor = Tab
 
 
@@ -149,7 +149,7 @@
   }
 
   $(document)
-      .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
-      .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
+    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
+    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
 
 }(jQuery);

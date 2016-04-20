@@ -60,9 +60,7 @@ describe('Move test:', function () {
       target: {port: 'TWO'}
     }
 
-    function up(val) {
-      return val.toUpperCase()
-    }
+    function up (val) { return val.toUpperCase() }
 
     Dot.move('source', 'source.id', link, up)
     Dot.move('target', 'target.port', link, up)

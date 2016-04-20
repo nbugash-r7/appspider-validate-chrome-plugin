@@ -23,7 +23,7 @@ describe('Dotted Array notation', function () {
     }
   })
 
-  function runVariant(type) {
+  function runVariant (type) {
     var v = function (v) {
       if (type === 'bracket') {
         // rewrite some.prop.1 to some.prop[1]
@@ -37,16 +37,14 @@ describe('Dotted Array notation', function () {
       it('index', function () {
         Dot.pick(v('path.0'), src).should.eql(src.path[0])
         Dot.pick(v('path.2'), src).should.eql(src.path[2])
-        ;
-        (typeof Dot.pick(v('path.9'), src)).should.eql('undefined')
+        ;(typeof Dot.pick(v('path.9'), src)).should.eql('undefined')
       })
 
       it('negative index', function () {
         Dot.pick(v('path.-1'), src).should.eql(src.path[2])
         Dot.pick(v('path.-2'), src).should.eql(src.path[1])
         Dot.pick(v('path.-3'), src).should.eql(src.path[0])
-        ;
-        (typeof Dot.pick(v('path.-9'), src)).should.eql('undefined')
+        ;(typeof Dot.pick(v('path.-9'), src)).should.eql('undefined')
       })
 
       it('non-array `-` prefixed properties', function () {
@@ -62,8 +60,7 @@ describe('Dotted Array notation', function () {
         Dot.pick(v('path.-2'), src).should.eql('test2')
         Dot.pick(v('path.-3'), src).should.eql('test3')
         Dot.pick(v('path.----key'), src).should.eql('test4')
-        ;
-        (typeof Dot.pick(v('path.-9'), src)).should.eql('undefined')
+        ;(typeof Dot.pick(v('path.-9'), src)).should.eql('undefined')
       })
 
       it('multiple indexes', function () {
@@ -104,8 +101,8 @@ describe('Dotted Array notation', function () {
 
         // array will have an undefined index.
         JSON.stringify(obj)
-            .should.eql(
-            JSON.stringify({path: ['test', undefined, 'test2']})
+          .should.eql(
+          JSON.stringify({path: ['test', undefined, 'test2']})
         )
 
         // to json will converted it to null
@@ -134,17 +131,17 @@ describe('Dotted Array notation', function () {
 
         // array will have an undefined index.
         JSON.stringify(obj)
-            .should.eql(
-            JSON.stringify({
-              path: [
-                'still', undefined, undefined, undefined, undefined, 'here'
-              ]
-            })
+          .should.eql(
+          JSON.stringify({
+            path: [
+              'still', undefined, undefined, undefined, undefined, 'here'
+            ]
+          })
         )
 
         // to json will converted it to null
         JSON.stringify(obj).should.eql(
-            '{"path":["still",null,null,null,null,"here"]}'
+          '{"path":["still",null,null,null,null,"here"]}'
         )
       })
 

@@ -105,3 +105,11 @@ pre code {
     white-space: pre;
     tab-size: 2;
 }
+
+button.appspider-btn-start-comparing {
+    float: right;
+    margin: 10px 10px 0 0;
+}
+.highlight {
+    background-color: yellow;
+}

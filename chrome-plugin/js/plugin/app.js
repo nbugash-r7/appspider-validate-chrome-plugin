@@ -94,7 +94,7 @@
                     * */
                     htmlString = decodeURI(encodeURI(htmlString));
                     return appspider.util.highlightText(htmlString,'head');
-                }
+                };
             },
             button: function ($scope) {
                 var buttonCtrl = this;
@@ -219,7 +219,22 @@
                             size: size
                         })
                     }
+                },
+                compare: function($scope, $uibModal) {
+                    var compareModal = this;
+                    compareModal.open = function(size, attacks) {
+                        $scope.attacks = attacks;
+                        var modalInstance = $uibModal.open({
+                            scope: $scope,
+                            animation: true,
+                            templateUrl: 'modal/compare.html',
+                            controller: AppSpider.controller.modalInstance.compare,
+                            controllerAs: 'compareCtrl',
+                            size: size
+                        });
+                    }
                 }
+
             },
             modalInstance: {
                 cookies: function ($scope, $uibModalInstance) {
@@ -351,6 +366,48 @@
                         proxyCtrl.proxy.host = '';
                         proxyCtrl.proxy.port = ''
                     }
+                },
+                compare: function($scope, $uibModalInstance) {
+                    var compareCtrl = this;
+                    compareCtrl.markedAttacks = [];
+                    for(var index in $scope.attacks) {
+                        if($scope.attacks.hasOwnProperty(index)) {
+                            var attack = $scope.attacks[index];
+                            if(attack.markedForCompare) {
+                                compareCtrl.markedAttacks.push(attack);
+                            }
+                        }
+                    }
+                    compareCtrl.stringifyAttackRequest = function(request) {
+                        return appspider.util.stringifyAttackRequest(request).trim();
+                    };
+                    compareCtrl.close = function() {
+                        $uibModalInstance.dismiss('Close');
+                    };
+                    compareCtrl.highlightDifference = function() {
+                        var diffRequestHeader = JsDiff.diffLines(
+                            appspider.util.stringifyAttackRequest(compareCtrl.markedAttacks[0].request),
+                            appspider.util.stringifyAttackRequest(compareCtrl.markedAttacks[1].request)
+                        );
+                        var diffResponseContent = JsDiff.diffLines(
+                            compareCtrl.markedAttacks[0].response.content,
+                            compareCtrl.markedAttacks[1].response.content
+                        );
+
+                        diffRequestHeader.forEach(function(part) {
+                            if (part.added || part.removed) {
+                                $('#compare-header-step-'+ compareCtrl.markedAttacks[1].id).highlight(part.value.trim());
+                                $('#compare-header-step-'+ compareCtrl.markedAttacks[0].id).highlight(part.value.trim());
+                            }
+                        });
+
+                        diffResponseContent.forEach(function(part) {
+                            if (part.added || part.removed) {
+                                $('#compare-content-step-'+ compareCtrl.markedAttacks[1].id).highlight(part.value.trim());
+                                $('#compare-content-step-'+ compareCtrl.markedAttacks[0].id).highlight(part.value.trim());                            }
+                        });
+                    }
+
                 }
             },
             render: function($scope, $sce) {
@@ -463,6 +520,7 @@
     appSpiderValidateApp.controller('ParameterModalController', ['$scope', '$uibModal', AppSpider.controller.modal.parameters]);
     appSpiderValidateApp.controller('HighlightedHTMLModalController', ['$scope', '$uibModal', AppSpider.controller.modal.highlightedHTML]);
     appSpiderValidateApp.controller('ProxyModalController', ['$scope', '$uibModal', AppSpider.controller.modal.proxy]);
+    appSpiderValidateApp.controller('CompareModalController', ['$scope', '$uibModal', AppSpider.controller.modal.compare]);
     appSpiderValidateApp.controller('ButtonController', ['$scope', AppSpider.controller.button]);
     appSpiderValidateApp.controller('RenderController', ['$scope','$sce', AppSpider.controller.render]);
     appSpiderValidateApp.directive('monitorPayload', [AppSpider.directive.monitor.attack.request.payload]);

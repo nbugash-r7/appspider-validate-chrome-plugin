@@ -10,8 +10,7 @@ var testData = [
 
 describe('Test Transforms:', function () {
   var dot = new Dot()
-
-  function testIt(test) {
+  function testIt (test) {
     it(test.name, function () {
       if (test.options) {
         Object.keys(test.options).forEach(function (name) {

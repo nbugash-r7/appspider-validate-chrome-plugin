@@ -21,7 +21,7 @@
 
 html {
   font-size: 10px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 body {
@@ -42,6 +42,7 @@ textarea {
   line-height: inherit;
 }
 
+
 // Links
 
 a {
@@ -59,6 +60,7 @@ a {
   }
 }
 
+
 // Figures
 //
 // We reset this here because previously Normalize had no `figure` margins. This
@@ -67,6 +69,7 @@ a {
 figure {
   margin: 0;
 }
+
 
 // Images
 
@@ -104,14 +107,16 @@ img {
   border-radius: 50%; // set radius in percents
 }
 
+
 // Horizontal rules
 
 hr {
-  margin-top: @line-height-computed;
+  margin-top:    @line-height-computed;
   margin-bottom: @line-height-computed;
   border: 0;
   border-top: 1px solid @hr-border;
 }
+
 
 // Only display content to screen readers
 //
@@ -124,7 +129,7 @@ hr {
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip: rect(0,0,0,0);
   border: 0;
 }
 
@@ -143,6 +148,7 @@ hr {
     clip: auto;
   }
 }
+
 
 // iOS "clickable elements" fix for role="button"
 //

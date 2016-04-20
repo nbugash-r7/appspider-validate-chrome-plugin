@@ -8,7 +8,8 @@ appspider.schema = {
             proxy: {
                 host: '',
                 port: ''
-            }
+            },
+            markedForCompare: false
         };
     },
     request: function() {

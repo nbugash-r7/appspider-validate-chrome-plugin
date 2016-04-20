@@ -50,9 +50,9 @@
 .navbar-collapse {
   overflow-x: visible;
   padding-right: @navbar-padding-horizontal;
-  padding-left: @navbar-padding-horizontal;
+  padding-left:  @navbar-padding-horizontal;
   border-top: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
   &:extend(.clearfix all);
   -webkit-overflow-scrolling: touch;
 
@@ -108,14 +108,15 @@
   > .navbar-header,
   > .navbar-collapse {
     margin-right: -@navbar-padding-horizontal;
-    margin-left: -@navbar-padding-horizontal;
+    margin-left:  -@navbar-padding-horizontal;
 
     @media (min-width: @grid-float-breakpoint) {
       margin-right: 0;
-      margin-left: 0;
+      margin-left:  0;
     }
   }
 }
+
 
 //
 // Navbar alignment options
@@ -156,6 +157,7 @@
   border-width: 1px 0 0;
 }
 
+
 // Brand/project name
 
 .navbar-brand {
@@ -181,6 +183,7 @@
     }
   }
 }
+
 
 // Navbar toggle
 //
@@ -220,6 +223,7 @@
   }
 }
 
+
 // Navbar nav links
 //
 // Builds on top of the `.nav` components with its own modifier class to make
@@ -229,7 +233,7 @@
   margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
 
   > li > a {
-    padding-top: 10px;
+    padding-top:    10px;
     padding-bottom: 10px;
     line-height: @line-height-computed;
   }
@@ -266,12 +270,13 @@
     > li {
       float: left;
       > a {
-        padding-top: @navbar-padding-vertical;
+        padding-top:    @navbar-padding-vertical;
         padding-bottom: @navbar-padding-vertical;
       }
     }
   }
 }
+
 
 // Navbar form
 //
@@ -284,7 +289,7 @@
   padding: 10px @navbar-padding-horizontal;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
-  @shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);
+  @shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
   .box-shadow(@shadow);
 
   // Mixin behavior for optimum display
@@ -315,6 +320,7 @@
   }
 }
 
+
 // Dropdown menus
 
 // Menu position and menu carets
@@ -328,6 +334,7 @@
   .border-top-radius(@navbar-border-radius);
   .border-bottom-radius(0);
 }
+
 
 // Buttons in navbars
 //
@@ -344,6 +351,7 @@
   }
 }
 
+
 // Text in navbars
 //
 // Add a class to make any element properly align itself vertically within the navbars.
@@ -358,6 +366,7 @@
   }
 }
 
+
 // Component alignment
 //
 // Repurpose the pull utilities as their own navbar utilities to avoid specificity
@@ -367,9 +376,7 @@
 // Declared after the navbar components to ensure more specificity on the margins.
 
 @media (min-width: @grid-float-breakpoint) {
-  .navbar-left {
-    .pull-left();
-  }
+  .navbar-left  { .pull-left(); }
   .navbar-right {
     .pull-right();
     margin-right: -@navbar-padding-horizontal;
@@ -379,6 +386,7 @@
     }
   }
 }
+
 
 // Alternate navbars
 // --------------------------------------------------
@@ -487,6 +495,7 @@
       }
     }
   }
+
 
   // Links in navbars
   //

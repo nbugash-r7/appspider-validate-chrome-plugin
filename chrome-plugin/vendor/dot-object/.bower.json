@@ -41,7 +41,7 @@
     "tag": "v1.4.1",
     "commit": "8e1dffead22fcb842d09362fde472fe43f830408"
   },
-  "_source": "git://github.com/rhalff/dot-object.git",
+  "_source": "https://github.com/rhalff/dot-object.git",
   "_target": "^1.4.1",
   "_originalSource": "dot-object"
 }

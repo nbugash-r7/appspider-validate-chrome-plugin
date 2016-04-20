@@ -79,7 +79,7 @@
     "tag": "v0.4.5",
     "commit": "1b2a01522d464a9233fecde1da6a16db965bcc47"
   },
-  "_source": "git://github.com/choffmeister/roboto-fontface-bower.git",
+  "_source": "https://github.com/choffmeister/roboto-fontface-bower.git",
   "_target": "~0.4.3",
   "_originalSource": "roboto-fontface"
 }
