@@ -369,6 +369,7 @@
                 },
                 compare: function($scope, $uibModalInstance) {
                     var compareCtrl = this;
+                    compareCtrl.btnCompare = 'Highlight difference';
                     compareCtrl.markedAttacks = [];
                     for(var index in $scope.attacks) {
                         if($scope.attacks.hasOwnProperty(index)) {
@@ -378,6 +379,7 @@
                             }
                         }
                     }
+
                     compareCtrl.stringifyAttackRequest = function(request) {
                         return appspider.util.stringifyAttackRequest(request).trim();
                     };
@@ -385,6 +387,7 @@
                         $uibModalInstance.dismiss('Close');
                     };
                     compareCtrl.highlightDifference = function() {
+                        $scope.showHighlightCompare = !$scope.showHighlightCompare;
                         var diffRequestHeader = JsDiff.diffLines(
                             appspider.util.stringifyAttackRequest(compareCtrl.markedAttacks[0].request),
                             appspider.util.stringifyAttackRequest(compareCtrl.markedAttacks[1].request)
@@ -393,19 +396,28 @@
                             compareCtrl.markedAttacks[0].response.content,
                             compareCtrl.markedAttacks[1].response.content
                         );
+                        if($scope.showHighlightCompare) {
 
-                        diffRequestHeader.forEach(function(part) {
-                            if (part.added || part.removed) {
-                                $('#compare-header-step-'+ compareCtrl.markedAttacks[1].id).highlight(part.value.trim());
-                                $('#compare-header-step-'+ compareCtrl.markedAttacks[0].id).highlight(part.value.trim());
-                            }
-                        });
+                            diffRequestHeader.forEach(function(part) {
+                                if (part.added || part.removed) {
+                                    $('#compare-header-step-'+ compareCtrl.markedAttacks[1].id).highlight(part.value.trim());
+                                    $('#compare-header-step-'+ compareCtrl.markedAttacks[0].id).highlight(part.value.trim());
+                                }
+                            });
 
-                        diffResponseContent.forEach(function(part) {
-                            if (part.added || part.removed) {
-                                $('#compare-content-step-'+ compareCtrl.markedAttacks[1].id).highlight(part.value.trim());
-                                $('#compare-content-step-'+ compareCtrl.markedAttacks[0].id).highlight(part.value.trim());                            }
-                        });
+                            diffResponseContent.forEach(function(part) {
+                                if (part.added || part.removed) {
+                                    $('#compare-content-step-'+ compareCtrl.markedAttacks[1].id).highlight(part.value.trim());
+                                    $('#compare-content-step-'+ compareCtrl.markedAttacks[0].id).highlight(part.value.trim());                            }
+                            });
+                            compareCtrl.btnCompare = 'Hide highlights';
+                        } else {
+                            $('#compare-header-step-'+ compareCtrl.markedAttacks[1].id).removeHighlight();
+                            $('#compare-header-step-'+ compareCtrl.markedAttacks[0].id).removeHighlight();
+                            $('#compare-content-step-'+ compareCtrl.markedAttacks[1].id).removeHighlight();
+                            $('#compare-content-step-'+ compareCtrl.markedAttacks[0].id).removeHighlight();
+                            compareCtrl.btnCompare = 'Highlight difference';
+                        }
                     }
 
                 }

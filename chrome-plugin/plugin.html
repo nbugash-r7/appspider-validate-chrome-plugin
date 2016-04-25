@@ -147,6 +147,18 @@
                                                     </ul>
                                                 </div>
                                                 <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-default appspider-btn-compare appspider-btn dropdown-toggle"
+                                                            data-toggle="dropdown">COMPARE <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu noclose" ng-controller="CompareModalController as compareCtrl">
+                                                        <li ng-repeat="(id,attack) in attackCtrl.attacks">
+                                                            <a href="#" class="small" data-value="Step_{{id}}"
+                                                               tabIndex="-1"><input ng-model="attack.markedForCompare"
+                                                                                    type="checkbox">&nbsp; Step {{id}}</a>
+                                                        </li>
+                                                        <button href="#" ng-click="compareCtrl.open('lg', attackCtrl.attacks )"
+                                                                class="btn btn-default appspider-btn appspider-btn-start-comparing">Start Comparing</button>
+                                                    </ul>
                                                     <button href="#" ng-controller="ProxyModalController as proxyCtrl"
                                                             ng-click="proxyCtrl.open(id, 'sm', attack)"
                                                             class="btn btn-default appspider-btn appspider-btn-proxy">Proxy
@@ -161,20 +173,6 @@
                                                     <button href="#" class="btn btn-default appspider-btn-send appspider-btn"
                                                             ng-click="attackCtrl.resendAttack(attack)">Send
                                                     </button>
-                                                    <button type="button" class="btn btn-default appspider-btn-compare appspider-btn dropdown-toggle"
-                                                            data-toggle="dropdown">COMPARE <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu noclose" ng-controller="CompareModalController as compareCtrl">
-                                                        <li ng-repeat="(id,attack) in attackCtrl.attacks">
-                                                            <a href="#" class="small" data-value="Step_{{id}}"
-                                                               tabIndex="-1"><input ng-model="attack.markedForCompare"
-                                                                                    type="checkbox">&nbsp; Step {{id}}</a>
-                                                        </li>
-                                                        <button href="#" ng-click="compareCtrl.open('lg', attackCtrl.attacks )"
-                                                                class="btn btn-default appspider-btn appspider-btn-start-comparing">Start Comparing</button>
-                                                    </ul>
-
-
                                                 </div>
                                             </div> <!-- input-group-btn -->
                                         </div> <!-- input-group -->
