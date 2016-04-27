@@ -18,11 +18,12 @@
             </span>
         </div>
     </div>
-    <span class="input-group-btn">
-        <button class="btn btn-default appspider-btn" type="button" ng-click="cookieCtrl.addNewCookie()"> Add new cookie</button>
-    </span>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary appspider-btn" ng-click="cookieCtrl.save(cookieCtrl.cookies)">Save changes</button>
+    <span class="input-group pull-right">
+        <button class="btn btn-default appspider-btn" ng-click="cookieCtrl.addNewCookie()"> Add new cookie</button>
+        <span class="input-group-btn"></span>
+        <button class="btn btn-default appspider-btn" ng-click="cookieCtrl.save(cookieCtrl.cookies)">Save changes</button>
+    </span>
 </div>
 <!-- End Modal -->

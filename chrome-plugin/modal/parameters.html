@@ -18,12 +18,14 @@
             </span>
         </div>
     </div>
-    <span class="input-group-btn">
-        <button class="btn btn-default appspider-btn" type="button"
-        ng-click="paramCtrl.addNewParams()">Add new parameters</button>
-    </span>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary appspider-btn" ng-click="paramCtrl.saveParameters(paramCtrl.parameters)">Save changes</button>
+    <span class="input-group pull-right">
+        <button class="btn btn-default appspider-btn"
+                ng-click="paramCtrl.addNewParams()">Add new parameters</button>
+        <span class="input-group-btn"></span>
+        <button class="btn btn-default appspider-btn"
+                ng-click="paramCtrl.saveParameters(paramCtrl.parameters)">Save changes</button>
+    </span>
 </div>
 <!-- End Modal -->

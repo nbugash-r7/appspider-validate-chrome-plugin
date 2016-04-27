@@ -20,13 +20,14 @@
             </span>
         </div>
     </div>
-    <span class="input-group-btn">
-        <button class="btn btn-default appspider-btn" type="button"
-                ng-click="headerCtrl.addNewHeaders()">Add new headers</button>
-    </span>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary appspider-btn" type="button"
-            ng-click="headerCtrl.saveHeaders(headerCtrl.headers)">Save changes</button>
+    <span class="input-group pull-right">
+        <button class="btn btn-default appspider-btn" type="button"
+                ng-click="headerCtrl.addNewHeaders()">Add new headers</button>
+        <span class="input-group-btn"></span>
+        <button class="btn btn-default appspider-btn" type="button"
+                ng-click="headerCtrl.saveHeaders(headerCtrl.headers)">Save changes</button>
+    </span>
 </div>
 <!-- End Modal -->

@@ -331,7 +331,7 @@
                             $scope.btnHighlight = 'Hide highlighted Vulnerabilities';
                             switch ($scope.attack.request.method.toUpperCase()) {
                                 case 'GET':
-                                    highlightedSection.apply("GET " + $scope.attack.uri.queryString);
+                                    highlightedSection.apply("GET " + $scope.attack.request.uri.queryString);
                                     break;
                                 case 'POST':
                                     highlightedSection.apply("POST " + $scope.attack.request.payload);
