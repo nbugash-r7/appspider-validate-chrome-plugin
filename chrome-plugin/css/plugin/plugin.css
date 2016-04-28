@@ -109,3 +109,8 @@ a.appspider-btn-start-comparing {
 .highlight {
     background-color: yellow;
 }
+
+
+textarea {
+    cursor: pointer !important;
+}
