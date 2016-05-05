@@ -1,7 +1,7 @@
 {
   "name": "AppSpider Validate Chrome Plugin",
   "description": "Chrome plugin used to enable the validate button in AppSpider reports.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "manifest_version": 2,
   "background": {
     "scripts": [
@@ -34,5 +34,8 @@
     "16":"img/icon.png",
     "48":"img/icon.png",
     "128":"img/icon.png"
-  }
+  },
+  "web_accessible_resources": [
+    "img/*.png"
+  ]
 }
