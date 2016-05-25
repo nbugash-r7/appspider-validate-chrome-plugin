@@ -90,6 +90,7 @@ appspider.http = {
                     }
                 } else {
                     console.log('Background.js - ' + xhr.status + ': Page not found');
+                    error(xhr);
                 }
                 xhr.onerror = function(event) {
                     console.error("Communication Error: Connection Refuse");
