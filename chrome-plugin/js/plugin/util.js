@@ -125,13 +125,15 @@ appspider.util = {
             }
         }
 
-        attackRequestString += "Cookies: { \r\n\t";
-        for (var c in request.cookie) {
-            if (request.cookie.hasOwnProperty(c)) {
-                attackRequestString += request.cookie[c].key + ":" + request.cookie[c].value + ', \r\n\t';
+        if(typeof request.cookie !== "undefined") {
+            attackRequestString += "Cookies: ";
+            for (var c in request.cookie) {
+                if (request.cookie.hasOwnProperty(c)) {
+                    attackRequestString += request.cookie[c].key + ":" + request.cookie[c].value + '; ';
+                }
             }
+            attackRequestString.slice(0,-1);
         }
-        attackRequestString += "}\r\n";
 
         return attackRequestString;
     },
