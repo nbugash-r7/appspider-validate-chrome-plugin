@@ -28,18 +28,18 @@
     "type": "git",
     "url": "git://github.com/rhalff/dot-object.git"
   },
-  "version": "1.4.1",
+  "version": "1.5.4",
   "homepage": "https://github.com/rhalff/dot-object",
   "moduleType": [
     "amd",
     "globals",
     "node"
   ],
-  "_release": "1.4.1",
+  "_release": "1.5.4",
   "_resolution": {
     "type": "version",
-    "tag": "v1.4.1",
-    "commit": "8e1dffead22fcb842d09362fde472fe43f830408"
+    "tag": "v1.5.4",
+    "commit": "78dfbcb037e0057af9f48d7985d93cae2cf2d085"
   },
   "_source": "https://github.com/rhalff/dot-object.git",
   "_target": "^1.4.1",

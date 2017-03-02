@@ -1,6 +1,6 @@
 {
   "name": "ui-base-styles",
-  "version": "1.4.0",
+  "version": "2.16.7",
   "dependencies": {
     "bootstrap-sass": "~3.3.3",
     "roboto-fontface": "~0.4.3"

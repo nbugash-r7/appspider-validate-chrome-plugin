@@ -1,6 +1,6 @@
 {
-  "name": "@rapid7/ui-base-styles",
-  "version": "1.4.0",
+  "name": "rapid7-base-styles",
+  "version": "2.16.7",
   "description": "Base SASS styles for rapid7 product family",
   "repository": {
     "type": "git",
@@ -12,11 +12,20 @@
   "homepage": "https://github.com/rapid7/ui-base-styles#readme",
   "scripts": {
     "bower": "bower install",
-    "build": "node-sass --output-style=compressed --include-path --source-map dist/styles app/styles/main.scss dist/styles/base.css"
+    "webFonts": "grunt webfont",
+    "copyModules": "cp app/styles/components/* dist && cp app/styles/_rapid7.scss dist",
+    "build": "node-sass --output-style=compressed --include-path --source-map dist/styles app/styles/main.scss dist/styles/base.css && npm run copyModules"
   },
+  "dependencies": {},
   "devDependencies": {
     "bower": "~1.3.9",
     "brunch": "~1.8.5",
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-webfont": "^1.4.0",
+    "load-grunt-tasks": "^3.5.0",
+    "node-sass": "^3.4.2",
     "sass-brunch": "~1.8.11"
   },
   "readme": "README.md"
