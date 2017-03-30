@@ -2,6 +2,15 @@
 
 ## Importing the styles
 
+### NPM
+
+## Install the App
+```
+npm install "rapid7-base-styles" -S
+```
+*Note:* you must have Rapid7 Nexus configured to install from NPM, make sure you add the following to your .npmrc file:
+`registry=https://artifacts.bos.rapid7.com/nexus/content/groups/npm-all`
+
 ### Bower
 
 These styles are available via [Bower](http://bower.io).
@@ -22,7 +31,25 @@ When using the base styles you can reference the main scss file and complie the 
 
 ## Building
 
-To complie the base styles run `npm run build`
+To compile the base styles run `npm run build`. This will also copy over the scss modules.
+
+## Web Fonts
+To generate the web fonts for the Rapid7 Icons run the `grunt webfont` task, this will update the rapid7.scss file and
+ the linked font files. To add new icons you must follow the below steps:
+- Add the new svg file to `src/svgs/`
+- Make sure to rename the icon and follow the naming convention throughout which is (icon- *icon name*)
+- Update the `codepoints.json` file with the new icon name and code, taking the last code and increasing by 1.
+- if you haven't already, make sure to install fontforge: (https://github.com/sapegin/grunt-webfont#installation)
+- Run `grunt webfont`
+-- NOTE after running the webfont task you must update the rapid7.scss file with the following changes:
+-- in _rapid7.scss replace `../dist/fonts/` with `#{$rapid7-font-path}`
+
+## Deployment
+- Checkout the lastest `master` branch 
+- `npm version major|minor|patch` based on the release you want to make.
+- update the `bower.json` version to the new version, commit this change
+- Push the new tag `git push --follow-tags`
+- Run the publish job from [Jenkins](https://razorci.osdc.lax.rapid7.com/search/?q=npm-ui-base-styles-master)
 
 ## Theming
 

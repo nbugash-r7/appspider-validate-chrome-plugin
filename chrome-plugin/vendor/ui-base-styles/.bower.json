@@ -1,6 +1,6 @@
 {
   "name": "ui-base-styles",
-  "version": "1.4.0",
+  "version": "2.16.7",
   "dependencies": {
     "bootstrap-sass": "~3.3.3",
     "roboto-fontface": "~0.4.3"
@@ -9,11 +9,11 @@
     "node_modules"
   ],
   "homepage": "https://github.com/rapid7/ui-base-styles",
-  "_release": "1.4.0",
+  "_release": "2.16.7",
   "_resolution": {
     "type": "version",
-    "tag": "v1.4.0",
-    "commit": "8d7395e22ffae96fe2cc2a03c5f2bc5620345f2f"
+    "tag": "v2.16.7",
+    "commit": "d3f50d658af5d6a297fb2b731a6b47803da35685"
   },
   "_source": "git@github.com:rapid7/ui-base-styles.git",
   "_target": "*",

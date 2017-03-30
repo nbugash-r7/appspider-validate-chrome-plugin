@@ -143,7 +143,7 @@
     DotObject.prototype.str = function(path, v, obj, mod) {
         if (path.indexOf(this.seperator) !== -1) {
             this._fill(path.split(this.seperator), obj, v, mod)
-        } else if (this.override) {
+        } else if (!obj.hasOwnProperty(path) || this.override) {
             obj[path] = _process(v, mod)
         }
 
@@ -444,7 +444,7 @@
         tgt = tgt || {}
         path = path || []
         Object.keys(obj).forEach(function(key) {
-            if (Object(obj[key]) === obj[key]) {
+            if (Object(obj[key]) === obj[key] && (Object.prototype.toString.call(obj[key]) === '[object Object]') || Object.prototype.toString.call(obj[key]) === '[object Array]') {
                 return this.dot(obj[key], tgt, path.concat(key))
             } else {
                 tgt[path.concat(key).join(this.seperator)] = obj[key]

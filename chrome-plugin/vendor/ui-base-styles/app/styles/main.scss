@@ -2,20 +2,31 @@
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
 
+//Roboto font
+@import "../../bower_components/roboto-fontface/css/roboto-fontface.scss";
+
 // Base styling overrides
-@import "_variables.scss";
+@import "components/_variables.scss";
+@import "components/_screenSizes";
+@import "components/_grid";
+@import "components/_palette";
+@import "components/_risk";
+@import "components/_goodBadYesNoOnOff";
+@import "components/_intensity";
+@import "components/_mixed";
+@import "components/_typography";
 
 // Mixins
-@import "_mixins.scss";
+@import "components/_mixins.scss";
 
 // Themes
 
 // To choose a new theme, simply uncomment one of the following lines.
 //
 // $theme: 'dark'; // for styles/themes/_dark.scss
-$theme: 'dark' !default;
+//$theme: 'dark' !default;
 
-@if $theme == 'dark'  { @import "themes/_dark.scss"; }
+@import "themes/_dark.scss";
 
 // Reset and dependencies
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";

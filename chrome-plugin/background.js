@@ -58,12 +58,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                                     /* Save attack to chrome storage */
                                                     appspider.chrome.storage.local.saveAttack(saved_attacks[0], function () {
                                                         console.log('Attack id: ' + saved_attacks[0].id + ' saved!');
-                                                        appspider.chrome.window.open('plugin.html', 844, 745);
+                                                        //appspider.chrome.window.open('plugin.html', 844, 745);
                                                     });
                                                 },
                                                 function (error) {
                                                     /* On an error response */
-                                                    console.error('Background.js: ' + xhr.status + ' ' +
+                                                    console.error('Background.js: ' + error.status + ' ' +
                                                         'error status ' + error.status + ' for attack id: ' +
                                                         saved_attacks[0].id);
                                                 }
@@ -71,6 +71,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                                         } else {
                                             console.error('Attack is undefined');
                                         }
+                                        appspider.chrome.window.open('plugin.html', 844, 745);
                                         break;
                                     case 'ajax':
                                         console.log('Sending http request via ajax is not yet implemented');

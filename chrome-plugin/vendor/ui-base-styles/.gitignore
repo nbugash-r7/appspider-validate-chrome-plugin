@@ -18,3 +18,9 @@ nohup.out
 
 # Sass
 .sass-cache
+
+# Dependencies
+bower_components
+
+# OS
+.DS_Store
