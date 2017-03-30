@@ -1,0 +1,12 @@
+<svg id="shape_definitions" data-name="shape definitions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #7a89a0;
+      }
+    </style>
+  </defs>
+  <title>r7-icon-redesign-export</title>
+  <path class="cls-1" d="M10,17a6.86,6.86,0,1,1,6.81-6.86A6.84,6.84,0,0,1,10,17ZM10,4.79a5.36,5.36,0,1,0,5.31,5.36A5.34,5.34,0,0,0,10,4.79Z"/>
+  <path class="cls-1" d="M19.64,20.31a0.75,0.75,0,0,1-.53-0.22L13.9,14.88A0.75,0.75,0,0,1,15,13.82L20.17,19A0.75,0.75,0,0,1,19.64,20.31Z"/>
+</svg>

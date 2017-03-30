@@ -1,0 +1,11 @@
+<svg id="shape_definitions" data-name="shape definitions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #7a89a0;
+      }
+    </style>
+  </defs>
+  <title>r7</title>
+  <path class="cls-1" d="M13.07,12l7.71-7.65a0.75,0.75,0,0,0-1.06-1.07L12,10.94,4.28,3.29A0.75,0.75,0,1,0,3.22,4.35L10.93,12,3.22,19.65a0.75,0.75,0,0,0,1.06,1.07L12,13.06l7.72,7.66a0.75,0.75,0,0,0,1.06-1.07Z"/>
+</svg>
